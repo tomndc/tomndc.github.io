@@ -1,0 +1,23 @@
+---
+import "../styles/sections/stack-styles.css";
+import stackData from "../../lib/data/stack-data.json";
+---
+
+<hr class="styled-hr" />
+<section class="stack">
+  <h4>Stack</h4>
+  <div class="container">
+    {
+      stackData.sections.map((section) => (
+        <div class="stack-column">
+          <h4>{section.title}</h4>
+          <ul>
+            {section.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>

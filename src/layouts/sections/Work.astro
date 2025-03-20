@@ -1,0 +1,76 @@
+---
+import TimelineItem from "../components/TimelineItem.astro";
+---
+
+<hr class="styled-hr" />
+<main class="work-experience">
+  <h4>selected projects</h4>
+  <section class="timeline">
+    <TimelineItem
+      companyIcon="https://icons.veryicon.com/png/o/miscellaneous/ramen-iconset-linear-icon-set/ghost-17.png"
+      altText="Berry"
+      roleTitle="Product"
+      companyName="Berry"
+      dateOrStatus="Ongoing"
+      description="Berry is a simple open-source alternative for managing classrooms and teaching schedules."
+      projects={[
+        "https://icons.veryicon.com/png/o/miscellaneous/ramen-iconset-linear-icon-set/ghost-17.png",
+        "https://icons.veryicon.com/png/o/miscellaneous/ramen-iconset-linear-icon-set/ghost-17.png",
+        "https://icons.veryicon.com/png/o/miscellaneous/ramen-iconset-linear-icon-set/ghost-17.png",
+      ]}
+      learnMoreLink="google.com"
+    />
+
+    <TimelineItem
+      companyIcon="https://icons.veryicon.com/png/o/miscellaneous/ramen-iconset-linear-icon-set/ghost-17.png"
+      altText="portfolio-template"
+      roleTitle="Website"
+      companyName="portfolio-template"
+      dateOrStatus="2023"
+      description="A template of this website, using Astro, p5.js and Javascript."
+    />
+
+    <TimelineItem
+      companyIcon="https://icons.veryicon.com/png/o/miscellaneous/ramen-iconset-linear-icon-set/ghost-17.png"
+      altText="gcalendar-cli"
+      roleTitle="Utility"
+      companyName="gcalendar-cli"
+      dateOrStatus="2023"
+      description="A simple but effective CLI that allows you to access your Google Calendar and operate from a command line, made with Python."
+      learnMoreLink="https://github.com/tomndc/gcalendar-cli"
+    />
+  </section>
+</main>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const items = document.querySelectorAll(".timeline-item");
+
+    items.forEach((item) => {
+      const header = item.querySelector(".timeline-header");
+      const content = item.querySelector(".timeline-content");
+
+      header.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        if (item.classList.contains("active")) {
+          content.classList.add("hidden");
+          item.classList.remove("active");
+          return;
+        }
+
+        items.forEach((otherItem) => {
+          otherItem.classList.remove("active");
+          otherItem.querySelector(".timeline-content").classList.add("hidden");
+        });
+
+        content.classList.remove("hidden");
+        item.classList.add("active");
+
+        item.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      });
+    });
+  });
+</script>

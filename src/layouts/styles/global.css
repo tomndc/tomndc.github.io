@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 35px;
+    gap: 15px;
+    padding: 5px;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+    width: 100%;
+}
+
+body {
+    font-family: "Schibsted Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    max-width: 600px;
+    padding: 0.5rem;
+    line-height: 1.3;
+    justify-content: space-between;
+    min-height: 100vh;
+    margin: auto;
+    transition-duration: 0.2s;
+    background-color: #111111;
+    color:#e3e3e3;
+    overflow-x: hidden;
+}
+
+body.light {
+    transition-duration: 0.2s;
+    background-color: #E6E6E6;
+    color: #111111;
+}
+
+.theme-toggle {
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    text-decoration: underline;
+}
+
+.theme-toggle svg {
+    width: 25px;
+    height: 25px;
+    transition: transform 0.2s ease;
+}
+
+.light .theme-toggle svg {
+    transform: rotate(360deg);
+}
+
+.styled-hr {
+    border: none;
+    height: 2px;
+    border-radius: 8px;
+    background-image: linear-gradient(145deg, #1a1a1a, #252525, #1a1a1a);
+    margin: 20px 0; /* Espaciado vertical */
+    transition: background-image 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+body.light .styled-hr {
+    background-image: linear-gradient(145deg, #e6e6e6, #b9b9b9, #e6e6e6);
+}
+
+.section-link {
+    color: inherit;
+    text-decoration: underline;
+    text-align: left;
+    cursor: pointer;
+}
+
+.section-link:link,
+.section-link:visited,
+.section-link:hover,
+.section-link:active {
+    color: inherit;
+    text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+    body {
+        font-size: 12px;
+        max-width: 90%;
+    }
+
+    header {
+        height: 30px;
+        gap: 10px;
+    }
+
+    .theme-toggle svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 11px;
+        padding: 1rem;
+        max-width: 100%;
+    }
+
+    header {
+        height: 25px;
+        gap: 5px;
+    }
+
+    .theme-toggle svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .styled-hr {
+        margin: 15px 0;
+    }
+}

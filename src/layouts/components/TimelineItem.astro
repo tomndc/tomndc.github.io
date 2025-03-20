@@ -1,0 +1,55 @@
+---
+interface Props {
+  companyIcon: string;
+  altText: string;
+  roleTitle: string;
+  companyName: string;
+  dateOrStatus: string;
+  description: string;
+  projects?: string[];
+  learnMoreLink?: string;
+}
+
+const {
+  companyIcon,
+  altText,
+  roleTitle,
+  companyName,
+  dateOrStatus,
+  description,
+  projects = [],
+  learnMoreLink,
+} = Astro.props;
+
+import "../styles/components/timeline-item.css";
+---
+
+<div class="timeline-item">
+  <div class="timeline-header">
+    <img src={companyIcon} alt={altText} class="company-icon" />
+    <div class="role">
+      <h2>{roleTitle}</h2>
+      <h3>{companyName}</h3>
+    </div>
+    <span class="date">{dateOrStatus}</span>
+  </div>
+  <div class="timeline-content hidden">
+    <p>{description}</p>
+    {
+      projects.length > 0 && (
+        <div class="projects">
+          {projects.map((project) => (
+            <img src={project} />
+          ))}
+        </div>
+      )
+    }
+    {
+      learnMoreLink && (
+        <a href={learnMoreLink} class="learn-more">
+          See the full project. →
+        </a>
+      )
+    }
+  </div>
+</div>

@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+#ascii-lava {
+  font-family: "Space Mono", monospace;
+  white-space: pre;
+  text-align: center;
+  line-height: 1.2;
+  color: inherit;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+  #ascii-lava {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  #ascii-lava {
+    font-size: 12px;
+    padding: 5px;
+  }
+}

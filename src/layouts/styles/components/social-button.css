@@ -1,0 +1,64 @@
+.social-link {
+    border: 1px solid #1f1f1f;
+    border-radius: 4px;
+    transition: background 0.8s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.2s, border-color 0.2s, opacity 0.2s;
+    margin: 0;
+    padding: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body.light .social-link {
+    border-color: #cfcfcf;
+}
+
+body .social-link svg {
+    fill: #E6E6E6;
+    stroke-width: 0;
+    width: 20px;
+    height: 20px;
+    transition: fill 0.2s;
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;
+}
+
+body.light .social-link svg {
+    fill: #111111; 
+}
+
+.social-link:hover, .social-link:focus {
+    background: linear-gradient(315deg, #2a2a2a, #1a1a1a);
+}
+
+body.light .social-link:hover, body.light .social-link:focus {
+    background: linear-gradient(315deg, #d1d1d1, #bcbcbc);
+}
+
+@media (max-width: 768px) {
+    .social-link {
+        padding: 8px;
+        width: 40px;
+        height: 40px; 
+    }
+
+    body .social-link svg {
+        width: 18px;  
+        height: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-link {
+        padding: 10px;
+        width: 45px;
+        height: 45px;
+    }
+
+    body .social-link svg {
+        width: 22px; 
+        height: 22px;
+    }
+}

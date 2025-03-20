@@ -1,0 +1,76 @@
+---
+import "../styles/components/ascii-lava.css";
+---
+
+<div id="ascii-lava"></div>
+<script>
+  import "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js";
+
+  document.addEventListener("DOMContentLoaded", function () {
+    let container = document.getElementById("ascii-lava");
+    container.style.fontSize = "11px";
+    container.style.letterSpacing = "1px";
+    container.style.lineHeight = "1";
+
+    new p5((p) => {
+      let cols = 45;
+      let rows = 30;
+      let time = 0;
+      let blobs = [];
+      let numBlobs = 4;
+
+      function createBlob() {
+        return {
+          x: p.random(cols),
+          y: p.random(rows),
+          radius: p.random(3, 7),
+          speedX: p.random(-0.1, 0.1),
+          speedY: p.random(-0.1, 0.1),
+        };
+      }
+
+      for (let i = 0; i < numBlobs; i++) {
+        blobs.push(createBlob());
+      }
+
+      function getCharacterForValue(value) {
+        if (value > 0.8) return "@";
+        if (value > 0.6) return "#";
+        if (value > 0.4) return "*";
+        if (value > 0.2) return "~";
+        return " ";
+      }
+
+      p.setup = () => {
+        p.noCanvas();
+      };
+
+      p.draw = () => {
+        let output = "";
+        let grid = new Array(rows).fill(0).map(() => new Array(cols).fill(0));
+
+        blobs.forEach((blob) => {
+          blob.x += blob.speedX;
+          blob.y += blob.speedY;
+          if (blob.x < 0 || blob.x >= cols) blob.speedX *= -1;
+          if (blob.y < 0 || blob.y >= rows) blob.speedY *= -1;
+        });
+
+        for (let i = 0; i < rows; i++) {
+          for (let j = 0; j < cols; j++) {
+            let sum = 0;
+            blobs.forEach((blob) => {
+              let d = p.dist(j, i, blob.x, blob.y);
+              sum += p.exp(-d / blob.radius);
+            });
+            output += `<span>${getCharacterForValue(sum)}</span>`;
+          }
+          output += "<br>";
+        }
+
+        container.innerHTML = output;
+        time += 0.02;
+      };
+    });
+  });
+</script>

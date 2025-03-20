@@ -1,0 +1,21 @@
+{
+    "sections": [
+      {
+        "title": "Development",
+        "items": ["Python", "Java", "JavaScript", "React", "Astro", "Flask", "Spring", "MongoDB & SQL", "Google Apps Scripts"]
+      },
+      {
+        "title": "Design",
+        "items": ["Illustrator", "Photoshop", "Premiere", "InDesign"]
+      },
+      {
+        "title": "Concepts",
+        "items": ["ORM", "APIs RESTful", "Testing", "UX/UI"]
+      },
+      {
+        "title": "Tools",
+        "items": ["Postman", "WordPress", "Moodle", "KOHA", "Postman", "Excel"]
+      }
+    ]
+  }
+  

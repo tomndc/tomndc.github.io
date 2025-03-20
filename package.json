@@ -1,0 +1,17 @@
+{
+  "name": "personal-portfolio",
+  "type": "module",
+  "version": "0.0.1",
+  "autor": "Tomás E. Manduca",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.16.16",
+    "framer-motion": "^11.13.1",
+    "p5": "^1.11.3"
+  }
+}

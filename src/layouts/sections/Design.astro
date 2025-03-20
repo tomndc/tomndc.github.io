@@ -1,0 +1,25 @@
+---
+import DESIGN_DATA from "../../lib/data/design-data.json";
+import CarouselItem from "../components/CarouselItem.astro";
+const { designs } = DESIGN_DATA;
+---
+
+<hr class="styled-hr" />
+<section>
+  <h4>design projects</h4>
+  <div class="carousel">
+    <div class="carousel-images">
+      {
+        designs.map((design) => (
+          <CarouselItem
+            key={design.title}
+            src={design.image}
+            alt={design.title}
+            title={design.title}
+            url={design.url}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

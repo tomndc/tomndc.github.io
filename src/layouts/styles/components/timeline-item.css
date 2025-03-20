@@ -1,0 +1,193 @@
+.timeline-header {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, background-image 0.3s ease, border-color 0.3s ease;
+    justify-content: space-between;
+    border: 1px solid transparent;
+}
+
+body .timeline-item.active .timeline-header,
+body .timeline-item:hover .timeline-header {
+    border-color: #1f1f1f;
+}
+
+body.light .timeline-item.active .timeline-header,
+body.light .timeline-item:hover .timeline-header {
+    border-color: #cfcfcf;
+}
+
+.timeline-header .role h2 {
+    margin: 0;
+    font-size: 13px;
+    color: inherit;
+    display: inline;
+    font-weight: 800;
+    margin-right: 10px;
+}
+
+.timeline-header .role h3 {
+    margin-right: 10px;
+    font-size: 14px;
+    color: inherit;
+    display: inline;
+    font-weight: 400;
+}
+
+.timeline-header .date {
+    font-size: 12px;
+    color: inherit;
+    font-weight: 400;
+    text-align: right;
+    justify-content: end;
+    margin-left: auto;
+}
+
+.timeline-header .company-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+body .timeline-item.active .timeline-header .company-icon,
+body .timeline-item:hover .timeline-header .company-icon {
+    filter: grayscale(0%);
+}
+
+.timeline-item {
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+body .timeline-item:hover,
+body.light .timeline-item:hover {
+    background-color: transparent;
+}
+
+.timeline-content.hidden {
+    display: none;
+}
+
+.timeline-item.active .timeline-content {
+    max-height: none;
+    opacity: 1;
+    padding: 15px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.projects {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: flex-start;
+}
+
+.projects img {
+    width: 120px;
+    height: auto;
+    border-radius: 4px;
+}
+
+.learn-more {
+    color: #63b3ed;
+    text-decoration: none;
+    font-size: 12px;
+    margin-top: 8px;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.currently {
+    font-size: 12px;
+    color: inherit;
+    font-weight: 800;
+    text-align: right;
+    justify-content: end;
+    margin-left: auto;
+    background-color: #3551f3;
+    border-radius: 6px;
+    padding: 5px;
+}
+
+@media (max-width: 768px) {
+    .timeline-header {
+        flex-direction: column; 
+        align-items: flex-start;
+    }
+
+    .timeline-header .role h2,
+    .timeline-header .role h3 {
+        font-size: 12px;
+        margin-bottom: 5px; 
+    }
+
+    .timeline-header .date {
+        font-size: 12px;
+        margin-left: 0;
+    }
+
+    .timeline-header .company-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .timeline-item {
+        margin-bottom: 10px; 
+    }
+
+    .projects img {
+        width: 100px;  
+    }
+
+    .learn-more {
+        font-size: 10px; 
+    }
+
+    .currently {
+        font-size: 10px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .timeline-header {
+        padding: 10px;
+    }
+
+    .timeline-header .role h2,
+    .timeline-header .role h3 {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    .timeline-header .date {
+        font-size: 11px;
+    }
+
+    .timeline-header .company-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .timeline-item {
+        margin-bottom: 8px;
+    }
+
+    .projects img {
+        width: 80px;
+    }
+
+    .learn-more {
+        font-size: 10px;
+    }
+
+    .currently {
+        font-size: 10px;
+    }
+}
