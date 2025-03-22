@@ -1,0 +1,22 @@
+---
+const { company, year_range, location, role, description, icon } = Astro.props;
+import "../styles/components/experience-item.css";
+---
+
+<div class="experience-item">
+  <div class="experience-header">
+    <div class="experience-icon">
+      <span class="icon-placeholder"><img src={icon} alt={company} /></span>
+    </div>
+    <div class="experience-details">
+      <div>
+        <span class="role">{role}</span> at <b>{company}</b>
+      </div>
+      <span class="date">{year_range}</span>
+    </div>
+  </div>
+  <div class="experience-content">
+    <p class="location">{location}</p>
+    <p class="description">{description}</p>
+  </div>
+</div>

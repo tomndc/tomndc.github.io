@@ -1,0 +1,88 @@
+.experience-item {
+  overflow: hidden;
+  transition: all 0.3s ease;
+  color: inherit;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.experience-item.active {
+  border-color: #E6E6E6;
+}
+
+.experience-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, background-image 0.3s ease, border-color 0.3s ease;
+  border: 1px solid transparent;
+  color: inherit;
+}
+
+.experience-header:hover {
+  border-color: #1f1f1f;
+}
+
+.experience-header .date {
+  font-size: 13px;
+  font-weight: 200;
+  color: inherit;
+  text-align: right;
+}
+
+.experience-icon {
+  width: 32px;
+  height: 32px;
+  transition: filter 0.3s ease;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.experience-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.experience-details {
+  flex-grow: 1;
+  margin-left: 0.8rem;
+}
+
+.experience-details h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.experience-details .role {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.experience-content {
+  display: none;
+  margin-top: 8px;
+}
+
+.experience-item.active .experience-content {
+  max-height: none;
+  opacity: 1;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.projects {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.projects img {
+  width: 100px;
+  height: 100px;
+}

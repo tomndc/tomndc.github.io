@@ -1,0 +1,57 @@
+---
+import experiences from "../../lib/data/experience-data.json";
+import ExperienceItem from "../components/ExperienceItem.astro";
+import "../styles/sections/experience-styles.css";
+---
+
+<section class="experience-section">
+  <h4>latest experience</h4>
+  <div class="experience-list">
+    {
+      experiences
+        .slice(0, 3)
+        .map((experience) => (
+          <ExperienceItem
+            company={experience.company}
+            year_range={experience.year_range}
+            location={experience.location}
+            role={experience.role}
+            description={experience.description}
+            icon={experience.icon}
+          />
+        ))
+    }
+  </div>
+  <h4>see full list below...</h4>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const items = document.querySelectorAll(".experience-item");
+
+    items.forEach((item) => {
+      const header = item.querySelector(".experience-header");
+
+      header.addEventListener("click", () => {
+        const isActive = item.classList.contains("active");
+
+        items.forEach((el) => {
+          if (el !== item) {
+            el.classList.remove("active");
+            el.querySelector(".experience-content").style.maxHeight = null;
+          }
+        });
+
+        if (isActive) {
+          item.classList.remove("active");
+          item.querySelector(".experience-content").style.maxHeight = null;
+        } else {
+          item.classList.add("active");
+          const content = item.querySelector(".experience-content");
+          content.style.maxHeight = content.scrollHeight + "px";
+          item.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      });
+    });
+  });
+</script>

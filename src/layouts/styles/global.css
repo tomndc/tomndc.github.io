@@ -2,7 +2,6 @@
 
 header {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
     height: 35px;
     gap: 15px;
@@ -13,6 +12,43 @@ header {
     position: sticky;
     top: 0;
     width: 100%;
+    overflow: hidden;
+}
+
+header .links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-right: auto;
+}
+
+header .utilities {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+header .theme-toggle {
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    text-decoration: underline;
+    display: flex;
+    align-items: center;
+}
+
+header .theme-toggle svg {
+    width: 25px;
+    height: 25px;
+    transition: transform 0.2s ease;  
+    border-radius: 4px;
+    padding: 1px;
+}
+
+.light .theme-toggle svg {
+    transform: rotate(360deg);
 }
 
 body {
@@ -29,7 +65,7 @@ body {
     margin: auto;
     transition-duration: 0.2s;
     background-color: #111111;
-    color:#e3e3e3;
+    color:#E6E6E6;
     overflow-x: hidden;
 }
 
@@ -61,7 +97,7 @@ body.light {
     height: 2px;
     border-radius: 8px;
     background-image: linear-gradient(145deg, #1a1a1a, #252525, #1a1a1a);
-    margin: 20px 0; /* Espaciado vertical */
+    margin: 20px 0;
     transition: background-image 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
@@ -74,6 +110,16 @@ body.light .styled-hr {
     text-decoration: underline;
     text-align: left;
     cursor: pointer;
+    font-size: 13px;
+}
+
+.section-link:hover {
+    background-color:     #F7C409;
+}
+
+body .section-link:hover {
+    background-color:     #F7C409;
+    color: #111111;
 }
 
 .section-link:link,
@@ -83,7 +129,6 @@ body.light .styled-hr {
     color: inherit;
     text-decoration: underline;
 }
-
 
 @media (max-width: 768px) {
     body {

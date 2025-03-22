@@ -38,7 +38,9 @@ This repository contains the source code for my personal website, built with Ast
   - [ ] List updates with dates.
 - [x] Make header.
 - [ ] List updates with dates.
-- [ ] Add latest experience section.
+- [x] Add latest experience section.
+  - [ ] Create full experience section.
+  - [ ] Add timelines, items and promotions.
 - [ ] ~~Add open-source section.~~
 - [ ] Add Other works and mentions section
 - [ ] Add ???
