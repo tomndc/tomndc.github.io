@@ -1,88 +1,53 @@
 .experience-item {
-  overflow: hidden;
-  transition: all 0.3s ease;
-  color: inherit;
-  border: 1px solid transparent;
-  border-radius: 4px;
-}
-
-.experience-item.active {
-  border-color: #E6E6E6;
-}
-
-.experience-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, background-image 0.3s ease, border-color 0.3s ease;
-  border: 1px solid transparent;
-  color: inherit;
+  gap: 1rem;
+  padding: 1.2rem 0;
 }
 
-.experience-header:hover {
-  border-color: #1f1f1f;
+.period {
+  width: 140px;
+  font-size: 0.85rem;
+  flex-shrink: 0;
 }
 
-.experience-header .date {
-  font-size: 13px;
-  font-weight: 200;
-  color: inherit;
-  text-align: right;
-}
-
-.experience-icon {
-  width: 32px;
-  height: 32px;
-  transition: filter 0.3s ease;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.experience-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.experience-details {
-  flex-grow: 1;
-  margin-left: 0.8rem;
-}
-
-.experience-details h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0;
-}
-
-.experience-details .role {
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.experience-content {
-  display: none;
-  margin-top: 8px;
-}
-
-.experience-item.active .experience-content {
-  max-height: none;
-  opacity: 1;
+.details {
+  flex: 1;
   display: flex;
-  justify-content: flex-start;
   flex-direction: column;
+  gap: 0.3rem;
 }
 
-.projects {
-  display: flex;
-  justify-content: flex-start;
-  gap: 5px;
+.title {
+  font-weight: 600;
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 
-.projects img {
-  width: 100px;
-  height: 100px;
+.location {
+  font-size: 0.85rem;
+}
+
+.description {
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.stack {
+  font-size: 0.8rem;
+}
+
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.full-work {
+  text-align: right;
+  font-size: 15px;
+  color: #f9f871;
+  font-weight: bold;
+  text-decoration: underline dotted;
 }

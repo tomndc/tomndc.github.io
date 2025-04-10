@@ -1,22 +1,17 @@
 ---
-const { company, year_range, location, role, description, icon } = Astro.props;
-import "../styles/components/experience-item.css";
+const { period, title, company, location, description } = Astro.props;
+import "../../layouts/styles/components/experience-item.css";
 ---
 
 <div class="experience-item">
-  <div class="experience-header">
-    <div class="experience-icon">
-      <span class="icon-placeholder"><img src={icon} alt={company} /></span>
+  <div class="period">{period}</div>
+  <div class="details">
+    <div class="title">
+      <strong>{title}</strong>
+      {" at "}
+      {company}
     </div>
-    <div class="experience-details">
-      <div>
-        <span class="role">{role}</span> at <b>{company}</b>
-      </div>
-      <span class="date">{year_range}</span>
-    </div>
-  </div>
-  <div class="experience-content">
-    <p class="location">{location}</p>
-    <p class="description">{description}</p>
+    <div class="location">{location}</div>
+    {description && <div class="description">{description}</div>}
   </div>
 </div>

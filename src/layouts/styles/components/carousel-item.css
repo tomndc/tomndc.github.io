@@ -30,14 +30,14 @@
   object-position: center;
   border-radius: 8px;
   transition: opacity 0.3s ease, filter 0.3s ease, border-color 0.3s ease;
-  border: 1px solid #2c2c2c;
+  border: 1px solid #232626;
 }
 
 .carousel-item:hover .carousel-image {
   opacity: 0.7;
   filter: brightness(0.7);
   transition: opacity 0.3s ease, filter 0.3s ease;
-  border-color: #212121;
+  border-color: #A6B9BA;
   transform: scale(1.05);
 }
 

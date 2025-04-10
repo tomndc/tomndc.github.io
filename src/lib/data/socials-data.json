@@ -1,7 +1,9 @@
 {
-    "linkedin": "https://www.linkedin.com/in/tomasmanduca/",
-    "github": "https://github.com/tomndc",
-    "dribble": "https://dribbble.com/tomndc",
-    "behance": "https://www.behance.net/tomndc",
-    "email": "johndoe@gmail.com"
-}
+    "linkedinText": "Say hi!",
+    "linkedinUrl": "https://linkedin.com/in/tomasmanduca",
+    "githubText": "Code",
+    "githubUrl": "https://github.com/tomndc",
+    "behanceText": "Design",
+    "behanceUrl": "https://behance.net/tomndc"
+  }
+  

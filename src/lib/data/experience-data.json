@@ -1,42 +1,26 @@
 [
   {
+    "period": "Aug 2024 – Mar 2025",
+    "title": "Data Annotator",
     "company": "LXT",
-    "year_range": "Aug. 2024 – Present",
     "location": "Remote",
-    "role": "Data Annotator",
-    "description": "Developed scripts for mass data categorization, integrating APIs for automated filtering and information processing. Identified and classified data according to company standards.",
-    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsvflCKBZPxXYmX1uD1_9qX7k9I3nUhuz4hg&s"
+    "description": "Developed automated scripts for large-scale data classification using external APIs. Ensured accurate annotation and compliance with internal data standards.",
+    "stack": ["Python", "pandas", "OpenCV", "Linux (Ubuntu)", "Nginx", "Gemini"]
   },
   {
-    "company": "National University of Hurlingham",
-    "year_range": "Sept. 2022 – Mar. 2024",
-    "location": "Hurlingham, Buenos Aires, Argentina (Hybrid)",
-    "role": "Educational Technology Intern",
-    "description": "Designed an automated accreditation, issuance, and certificate delivery system using Python and Flask. Developed RESTful APIs, WordPress sites, and institutional web platforms. Managed SQL databases (KOHA) for performance analysis, inventory management, and trend identification; administered Moodle environments. Designed graphic, audiovisual resources, and publications, including a digital book and institutional websites to promote educational initiatives.",
-    "icon": "https://yt3.googleusercontent.com/PK-031y1q5P0oBrHyhlWegGp8tzgeIYuRx6ZFG1WCZtS_KkuSaLBHbIgrS8xC9ITxnS5why-gg=s900-c-k-c0x00ffffff-no-rj"
+    "period": "Sep 2022 – Mar 2024",
+    "title": "Intern in Educational Technology",
+    "company": "Universidad Nacional de Hurlingham (UNAHUR)",
+    "location": "Argentina · Hybrid",
+    "description": "Automated certificate generation using Python. Developed institutional web platforms, administered Moodle, KOHA, and SQL systems, and produced graphic and audiovisual content for institutional initiatives.",
+    "stack": ["Python", "Flask", "JavaScript", "React", "Astro", "ChakraUI", "SQL", "Google Apps Script", "Postman", "WordPress", "Moodle", "Illustrator", "Premiere"]
   },
   {
-    "company": "Ministry of Education of the Nation",
-    "year_range": "Mar. 2019 – Mar. 2021",
-    "location": "Buenos Aires, Argentina (Hybrid)",
-    "role": "Teacher",
-    "description": "Taught Language and Literature subjects at secondary level and informal learning environments. Participated in literacy workshops and writing instruction.",
-    "icon": "https://scontent.fepa8-1.fna.fbcdn.net/v/t39.30808-6/316958181_510461434455572_4854148936317915560_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=maYrqX-2mRUQ7kNvgFTKiOD&_nc_oc=AdleA-7q0-ZjV32dWZUJtJwHr9OzAv2I4DvmamDqc2-wb-OC148ObA51LcY65MCv8u8&_nc_zt=23&_nc_ht=scontent.fepa8-1.fna&_nc_gid=cA3pyfwZV72t29ln0NnyvA&oh=00_AYEhyqnz3SuMxiJA8pecZ-XDg0yuDyBnDMdk5FjnWPRQfw&oe=67E3C2EB"
-  },
-  {
-    "company": "Freelancer",
-    "year_range": "Apr. 2018 – Jan. 2019",
-    "location": "Remote",
-    "role": "Writer",
-    "description": "Produced written content for various clients according to specified guidelines.",
-    "icon": "https://www.shutterstock.com/image-vector/image-icon-trendy-flat-style-600nw-643080895.jpg"
-  },
-  {
-    "company": "Freelancer",
-    "year_range": "Jan. 2017 – Jan. 2019",
-    "location": "Remote",
-    "role": "Graphic Designer",
-    "description": "Created visual designs for branding, marketing, and promotional purposes.",
-    "icon": "https://www.shutterstock.com/image-vector/image-icon-trendy-flat-style-600nw-643080895.jpg"
+    "period": "May 2022 – Sep 2022",
+    "title": "Moodle Administrator",
+    "company": "CIVET (Virtual Innovation Center for Education and Work)",
+    "location": "Argentina · Remote",
+    "description": "Oversaw virtual campus setup, mass user enrollments, and issue tracking. Handled data validation between graduate records and ensured proper course configurations on Moodle.",
+    "stack": ["Moodle", "Google Workspace", "Spreadsheets"]
   }
 ]

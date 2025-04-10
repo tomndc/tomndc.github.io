@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap');
 
 header {
     display: flex;
@@ -6,13 +6,14 @@ header {
     height: 35px;
     gap: 15px;
     padding: 5px;
-    border-radius: 8px;
+    border-radius: 5px;
     backdrop-filter: blur(10px);
     z-index: 1000;
     position: sticky;
     top: 0;
     width: 100%;
     overflow: hidden;
+
 }
 
 header .links {
@@ -52,7 +53,7 @@ header .theme-toggle svg {
 }
 
 body {
-    font-family: "Schibsted Grotesk", sans-serif;
+    font-family: "Hanken Grotesk", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
     font-weight: 400;
@@ -64,15 +65,15 @@ body {
     min-height: 100vh;
     margin: auto;
     transition-duration: 0.2s;
-    background-color: #111111;
-    color:#E6E6E6;
+    background-color: #1A2124;
+    color:#A6B9BA;
     overflow-x: hidden;
 }
 
 body.light {
     transition-duration: 0.2s;
-    background-color: #E6E6E6;
-    color: #111111;
+    background-color:#F7F2ED;
+    color: #44403B;
 }
 
 .theme-toggle {
@@ -96,13 +97,13 @@ body.light {
     border: none;
     height: 2px;
     border-radius: 8px;
-    background-image: linear-gradient(145deg, #1a1a1a, #252525, #1a1a1a);
+    background-image: linear-gradient(145deg, #2a3439, #2a3439, #2a3439 );
     margin: 20px 0;
     transition: background-image 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 body.light .styled-hr {
-    background-image: linear-gradient(145deg, #e6e6e6, #b9b9b9, #e6e6e6);
+    background-image: linear-gradient(145deg, #e6e6e6, #e6e6e6, #e6e6e6);
 }
 
 .section-link {
@@ -114,12 +115,16 @@ body.light .styled-hr {
 }
 
 .section-link:hover {
-    background-color:     #F7C409;
+    background-color:#f9f871;
 }
 
 body .section-link:hover {
-    background-color:     #F7C409;
+    background-color:#f9f871;
     color: #111111;
+}
+
+body.light .section-link:hover {
+    background-color:#E4DDD5;
 }
 
 .section-link:link,
@@ -128,6 +133,15 @@ body .section-link:hover {
 .section-link:active {
     color: inherit;
     text-decoration: underline;
+}
+
+footer {
+    padding-top: 35px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 @media (max-width: 768px) {

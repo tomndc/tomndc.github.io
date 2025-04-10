@@ -4,7 +4,7 @@
     border-radius: 8px;
     padding: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, background-image 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.1s ease, background-image 0.1s ease, border-color 0.1s ease;
     justify-content: space-between;
     border: 1px solid transparent;
     color: inherit;
@@ -12,7 +12,7 @@
 
 body .timeline-item.active .timeline-header,
 body .timeline-item:hover .timeline-header {
-    border-color: #1f1f1f;
+    border-color: #3b4343;
 }
 
 body.light .timeline-item.active .timeline-header,
@@ -23,16 +23,16 @@ body.light .timeline-item:hover .timeline-header {
 .timeline-header .role h2 {
     margin: 0;
     font-size: 13px;
-    color: #E6E6E6;
+    color: #A6B9BA;
     display: inline;
-    font-weight: 800;
+    font-weight: 400;
     margin-right: 10px;
 }
 
 .timeline-header .role h3 {
     margin-right: 10px;
     font-size: 14px;
-    color: #E6E6E6;
+    color: #A6B9BA;
     display: inline;
     font-weight: 400;
 }
@@ -40,9 +40,9 @@ body.light .timeline-item:hover .timeline-header {
 body.light .timeline-header .role h2 {
     margin: 0;
     font-size: 13px;
-    color: #111111;
+    color: #1A2124;
     display: inline;
-    font-weight: 800;
+    font-weight: 400;
     margin-right: 10px;
 }
 
@@ -66,8 +66,8 @@ body.light .timeline-header .role h3 {
 .timeline-item svg {
     margin-left: 12px;
     background-color: transparent;
-    fill: #E6E6E6;
-    stroke: #E6E6E6;
+    fill: #A6B9BA;
+    stroke: #A6B9BA;
 }
 
 body.light .timeline-item svg {
@@ -79,7 +79,7 @@ body.light .timeline-item svg {
 
 .timeline-item:hover svg {
     transform: scale(1.5);
-    transition: fill 0.2s ease, stroke 0.3s ease, transform 0.3s ease;
+    transition: fill 0.1s ease, stroke 0.1s ease, transform 0.1s ease;
 }
 
 .timeline-header .company-icon {
@@ -87,7 +87,7 @@ body.light .timeline-item svg {
     height: 24px;
     margin-right: 8px;
     filter: grayscale(100%);
-    transition: filter 0.3s ease;
+    transition: filter 0.1s ease;
 }
 
 body .timeline-item.active .timeline-header .company-icon,
@@ -97,7 +97,7 @@ body .timeline-item:hover .timeline-header .company-icon {
 
 .timeline-item {
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.1s ease;
     background-color: transparent;
     color: inherit;
 }
@@ -131,15 +131,33 @@ body.light .timeline-item:hover {
     width: 120px;
     height: auto;
     border-radius: 4px;
+    transition: transform 0.2s ease-in-out;
+    object-fit: cover;
+}
+
+.projects img:hover {
+    transform: scale(1.05);
 }
 
 .learn-more {
-    color: #63b3ed;
+    color: #f9f871;
     text-decoration: none;
     font-size: 12px;
     margin-top: 8px;
     margin-left: 0;
     margin-right: auto;
+    font-weight: 600;
+}
+
+
+body.light .learn-more {
+    color: #1a2124;
+    text-decoration: none;
+    font-size: 12px;
+    margin-top: 8px;
+    margin-left: 0;
+    margin-right: auto;
+    font-weight: 600;
 }
 
 .currently {
@@ -149,7 +167,7 @@ body.light .timeline-item:hover {
     text-align: right;
     justify-content: end;
     margin-left: auto;
-    background-color: #3551f3;
+    background-color: #f9f871;
     border-radius: 6px;
     padding: 5px;
 }

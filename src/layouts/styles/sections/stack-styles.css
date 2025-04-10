@@ -1,20 +1,17 @@
 .container {
-    width: 600px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    justify-content: space-between;
     margin: 0 auto;
 }
 
-.stack {
-    margin-top: 1rem;
+.stack-label {
+    margin: 0 0 0.5rem 0;
 }
 
 .stack h4 {
     margin-bottom: 1rem;
-}
-
-.container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
 }
 
 .stack-column {
@@ -24,13 +21,13 @@
 
 .stack-column h4 {
     margin-bottom: 10px;
-    color: #E6E6E6;
+    color: inherit;
     font-weight: bold;
     font-size: 1rem;
 }
 
 body.light .stack-column h4 {
-    color: #111111;
+    color: inherit;
 }
 
 .stack-column ul {
@@ -40,13 +37,13 @@ body.light .stack-column h4 {
 }
 
 .stack-column ul li {
-    color: #d3d3d3;
+    color: inherit;
     transition: color 0.3s ease;
     font-size: 0.9rem;
 }
 
 body.light .stack-column ul li {
-    color: #333;
+    color: inherit;
 }
 
 @media (max-width: 600px) {

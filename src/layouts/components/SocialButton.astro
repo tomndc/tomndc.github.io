@@ -1,13 +1,18 @@
 ---
 interface Props {
   href: string;
-  icon: string;
+  text: string;
+  social: string;
 }
 
-const { href, icon } = Astro.props;
+const { href, text, social } = Astro.props;
 import "../styles/components/social-button.css";
 ---
 
-<a class="social-link" href={href} target="_blank" rel="noopener noreferrer">
-  <span set:html={icon} />
-</a>
+<div class="social-wrapper">
+  <span class="left">{text}</span>
+  <span class="spacer"></span>
+  <a class="right" href={href} target="_blank" rel="noopener noreferrer">
+    {social}
+  </a>
+</div>

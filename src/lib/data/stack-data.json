@@ -2,7 +2,7 @@
     "sections": [
       {
         "title": "Development",
-        "items": ["Python", "Java", "JavaScript", "React", "Astro", "Flask", "Spring", "MongoDB & SQL", "Google Apps Scripts"]
+        "items": ["Python", "JavaScript", "CSS/HTML", "Astro", "MongoDB & SQL", "Google Apps Scripts"]
       },
       {
         "title": "Design",
@@ -14,7 +14,7 @@
       },
       {
         "title": "Tools",
-        "items": ["Postman", "WordPress", "Moodle", "KOHA", "Postman", "Excel"]
+        "items": ["Postman", "WordPress", "Moodle", "KOHA", "Postman", "Excel", "Git"]
       }
     ]
   }
