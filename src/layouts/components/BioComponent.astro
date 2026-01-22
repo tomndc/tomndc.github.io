@@ -1,0 +1,99 @@
+---
+interface Props {
+  name: string;
+  subtitle: string;
+  avatar: string;
+}
+
+const { name, subtitle, avatar } = Astro.props;
+---
+
+<div class="profile">
+  <div class="avatar-wrap">
+    <img src={avatar} alt={name} class="avatar" />
+
+    <span class="bubble"> Say hi! </span>
+  </div>
+
+  <div class="info">
+    <h2>{name}</h2>
+    <p>{subtitle}</p>
+  </div>
+</div>
+
+<style>
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: inherit;
+    color: inherit;
+    width: fit-content;
+  }
+
+  .avatar-wrap {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
+
+  .avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  img {
+    transform: scaleX(-1);
+  }
+
+  .bubble {
+    position: absolute;
+    right: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%) translateX(4px);
+
+    background: color-mix(in srgb, currentColor 12%, transparent);
+    color: currentColor;
+
+    font-size: 12px;
+    padding: 3px 7px;
+    border-radius: 6px;
+
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .avatar-wrap:hover .bubble {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .info h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .info p {
+    margin: 1px 0 0;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+</style>

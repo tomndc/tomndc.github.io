@@ -1,21 +1,9 @@
-{
-    "sections": [
-      {
-        "title": "Development",
-        "items": ["Python", "JavaScript", "CSS/HTML", "Astro", "MongoDB & SQL", "Google Apps Scripts"]
-      },
-      {
-        "title": "Design",
-        "items": ["Illustrator", "Photoshop", "Premiere", "InDesign"]
-      },
-      {
-        "title": "Concepts",
-        "items": ["ORM", "APIs RESTful", "Testing", "UX/UI"]
-      },
-      {
-        "title": "Tools",
-        "items": ["Postman", "WordPress", "Moodle", "KOHA", "Postman", "Excel", "Git"]
-      }
-    ]
-  }
-  
+[
+  { "name": "JavaScript", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+  { "name": "TypeScript", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+  { "name": "React", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+  { "name": "Node.js", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+  { "name": "Python", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+  { "name": "HTML5", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+  { "name": "CSS3", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" }
+]

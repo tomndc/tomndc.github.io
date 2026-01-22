@@ -1,0 +1,17 @@
+---
+import ProjectComponent from "../components/ProjectComponent.astro";
+import projects from "../../lib/data/projects-data.json";
+---
+
+<section class="grid">
+  {projects.map((project) => <ProjectComponent item={project} />)}
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+  }
+</style>

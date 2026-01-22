@@ -1,0 +1,9 @@
+[
+  {
+    "name": "store-template",
+    "description": "Fullstack ecommerce project with user authentication, product and order management, real-time features, notifications, document generation, automated testing, and API documentation.",
+    "technologies": ["Javascript", "NodeJS", "Mongoose", "Passport", "Multer","Socket.io","pdfkit","Swagger","Nodemailer","Winston","Mocha","Supertest"],
+    "deploy": "https://fakelibre-coderhouse-deploy-production.up.railway.app/",
+    "source": "https://github.com/tomndc/store-template"
+  }
+]

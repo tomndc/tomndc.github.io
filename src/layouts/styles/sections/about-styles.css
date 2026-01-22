@@ -10,6 +10,11 @@
     margin-top: 0;
 }
 
+.introduction-box {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
 .text-box {
     flex: 1;
     align-items: stretch;

@@ -1,18 +1,86 @@
 ---
 interface Props {
-  href: string;
-  text: string;
-  social: string;
+  linkedinUrl: string;
+  githubUrl: string;
+  behanceUrl: string;
 }
 
-const { href, text, social } = Astro.props;
-import "../styles/components/social-button.css";
+const { linkedinUrl, githubUrl, behanceUrl } = Astro.props;
 ---
 
-<div class="social-wrapper">
-  <span class="left">{text}</span>
-  <span class="spacer"></span>
-  <a class="right" href={href} target="_blank" rel="noopener noreferrer">
-    {social}
-  </a>
-</div>
+<p class="connect">
+  Feel free to reach out on
+  <a
+    href={linkedinUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="icon-link"
+  >
+    LinkedIn
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 17L17 7"></path>
+      <path d="M7 7h10v10"></path>
+    </svg>
+  </a>, browse my
+  <a
+    href={githubUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="icon-link"
+  >
+    GitHub
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 17L17 7"></path>
+      <path d="M7 7h10v10"></path>
+    </svg>
+  </a>, or take a look at my design work on
+  <a
+    href={behanceUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="icon-link"
+  >
+    Behance
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 17L17 7"></path>
+      <path d="M7 7h10v10"></path>
+    </svg>
+  </a>.
+</p>
+
+<style>
+  .connect {
+    max-width: 560px;
+    font-size: inherit;
+    color: inherit;
+    margin: 0;
+  }
+
+  .icon-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+  }
+
+  .icon-link:hover {
+    opacity: 1;
+  }
+
+  .icon-link svg {
+    width: 0.85em;
+    height: 0.85em;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+    opacity: 0.75;
+  }
+</style>

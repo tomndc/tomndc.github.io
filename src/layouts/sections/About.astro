@@ -1,34 +1,36 @@
 ---
-import AsciiLava from "../components/AsciiLava.astro";
 import "../styles/sections/about-styles.css";
-import SocialButton from "../components/SocialButton.astro";
+import BioComponent from "../components/BioComponent.astro";
 import ABOUT_ME_DATA from "../../lib/data/about-data.json";
+import AsciiLava from "../components/AsciiLava.astro";
+import SocialButton from "../components/SocialButton.astro";
 import socials from "../../lib/data/socials-data.json";
-const { presentation, bio } = ABOUT_ME_DATA;
+
+const { bio } = ABOUT_ME_DATA;
+const { linkedinUrl, githubUrl, behanceUrl } = socials;
 ---
 
 <section class="about-me">
+  <!--
   <div class="ascii-lava-box">
     <AsciiLava />
   </div>
+  -->
+
   <div class="text-box">
-    <p><b>Hey</b>, {presentation}</p>
-    <p>{bio}</p>
+    <BioComponent
+      name="Tomás Manduca"
+      subtitle="Developer based in Buenos Aires, Argentina."
+      avatar="/avatar.jpg"
+    />
+
+    <p class="introduction-box">{bio}</p>
+
     <div class="socials">
       <SocialButton
-        text={socials.linkedinText}
-        href={socials.linkedinUrl}
-        social="LinkedIn"
-      />
-      <SocialButton
-        text={socials.githubText}
-        href={socials.githubUrl}
-        social="GitHub"
-      />
-      <SocialButton
-        text={socials.behanceText}
-        href={socials.behanceUrl}
-        social="Behance"
+        linkedinUrl={linkedinUrl}
+        githubUrl={githubUrl}
+        behanceUrl={behanceUrl}
       />
     </div>
   </div>
