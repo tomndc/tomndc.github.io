@@ -5,5 +5,33 @@
     "technologies": ["Javascript", "NodeJS", "Mongoose", "Passport", "Multer","Socket.io","pdfkit","Swagger","Nodemailer","Winston","Mocha","Supertest"],
     "deploy": "https://fakelibre-coderhouse-deploy-production.up.railway.app/",
     "source": "https://github.com/tomndc/store-template"
+  },
+  {
+    "name": "mini-docs",
+    "description": "Fullstack ecommerce project with user authentication, product and order management, real-time features, notifications, document generation, automated testing, and API documentation.",
+    "technologies": ["Typescript", "ExpressJS","Websockets","Prisma","PostgreSQL","Vite"],
+    "deploy": "",
+    "source": "https://github.com/tomndc/mini-docs"
+  },
+  {
+    "name": "gcalendar-cli",
+    "description": "A simple but effective CLI that allows you to access your Google Calendar and operate from a command line.",
+    "technologies": ["Python", "Google API"],
+    "deploy": "",
+    "source": "https://github.com/tomndc/gcalendar-cli"
+  },
+  {
+    "name": "Nativo",
+    "description": "Audiovisual collection of the National University of Hurlingham.",
+    "technologies": ["PHP", "Laravel"],
+    "deploy": "https://nativo.unahur.edu.ar/",
+    "source": ""
+  },
+  {
+    "name": "Docentes UNAHUR",
+    "description": "Institutional website for teachers.",
+    "technologies": ["Wordpress", "Javascript"],
+    "deploy": "https://docentes.unahur.edu.ar/",
+    "source": ""
   }
 ]
