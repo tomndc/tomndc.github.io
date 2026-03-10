@@ -97,8 +97,8 @@
   }
 
   function pickLi(li) {
-    addFilter(li.dataset.label, li.dataset.kind);
     $input.value = ""; query = "";
+    addFilter(li.dataset.label, li.dataset.kind);
     closeSugs(); $input.focus();
   }
 

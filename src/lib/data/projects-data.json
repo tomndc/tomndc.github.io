@@ -9,7 +9,7 @@
   },
   {
     "name": "mini-docs",
-    "type": "Web Scrapping",
+    "type": "Fullstack",
     "description": "Fullstack ecommerce project with user authentication, product and order management, real-time features, notifications, document generation, automated testing, and API documentation.",
     "technologies": ["Typescript", "ExpressJS","Websockets","Prisma","PostgreSQL","Vite"],
     "deploy": "",
@@ -33,7 +33,7 @@
   },
   {
     "name": "Docentes UNAHUR",
-      "type": "Web Design",
+    "type": "Web Design",
     "description": "Institutional website for teachers.",
     "technologies": ["Wordpress", "Javascript"],
     "deploy": "https://docentes.unahur.edu.ar/",
