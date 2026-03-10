@@ -32,6 +32,23 @@
   const $hint      = document.getElementById("ps-hint");
   const allCards   = Array.from($grid.querySelectorAll("article"));
 
+  const iconSlug = {
+    "javascript": "javascript", "typescript": "typescript",
+    "nodejs": "nodedotjs", "expressjs": "express",
+    "python": "python", "php": "php", "laravel": "laravel",
+    "wordpress": "wordpress", "postgresql": "postgresql",
+    "prisma": "prisma", "mongoose": "mongoose",
+    "vite": "vite", "websockets": "socket.io",
+    "socket.io": "socket.io", "swagger": "swagger",
+    "google api": "google", "passport": "passport",
+  };
+
+  function techIcon(label) {
+    const slug = iconSlug[label.toLowerCase()];
+    if (!slug) return "";
+    return `<img src="https://cdn.simpleicons.org/${slug}" width="12" height="12" alt="" style="opacity:0.7;flex-shrink:0;filter:var(--icon-filter,none);margin-left:4px;;margin-right:4px" onerror="this.style.display='none'">`;
+  }
+
   function buildSugs(q) {
     if (!q.trim()) return [];
     const active = new Set(filters.map((f) => f.label.toLowerCase()));
@@ -58,6 +75,7 @@
           data-label="${s.label}"
           data-kind="${s.kind}"
           tabindex="0">
+        ${s.kind === "tech" ? techIcon(s.label) : ""}
         <span class="sug-pill">${s.label}</span>
       </li>
     `).join("");
@@ -128,12 +146,12 @@
   }
 
   function renderChips() {
-    const chipBase = "display:inline-flex;align-items:center;gap:0.3rem;font-size:0.63rem;font-family:var(--font-mono,'IBM Plex Mono',monospace);padding:0.14rem 0.4rem 0.14rem 0.48rem;border-radius:999px;white-space:nowrap;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.11);color:rgba(255,255,255,0.6);cursor:default;line-height:1;";
+    const chipBase = "display:inline-flex;align-items:center;gap:0.3rem;font-size:0.63rem;font-family:var(--font-mono,'IBM Plex Mono',monospace);padding:0.14rem 0.4rem 0.14rem 0.48rem;border-radius:999px;white-space:nowrap;background:color-mix(in srgb,currentColor 8%,transparent);border:1px solid color-mix(in srgb,currentColor 14%,transparent);color:inherit;opacity:0.75;cursor:default;line-height:1;";
 
     $chips.innerHTML = filters.map((f) => `
-      <span style="${chipBase}">
-        <span style="font-size:0.63rem;">${f.label}</span>
-        <span class="chip-x" role="button" tabindex="0" aria-label="Remove ${f.label}" data-lbl="${f.label}" style="display:inline-flex;align-items:center;justify-content:center;cursor:pointer;opacity:0.45;line-height:1;font-size:0.7rem;">✕</span>
+      <span style="${chipBase}opacity:1;">
+        <span style="font-size:0.63rem;opacity:0.75;">${f.label}</span>
+        <span class="chip-x" role="button" tabindex="0" aria-label="Remove ${f.label}" data-lbl="${f.label}" style="display:inline-flex;align-items:center;justify-content:center;cursor:pointer;opacity:0.4;line-height:1;font-size:0.68rem;padding:0 1px;">✕</span>
       </span>
     `).join("");
 
@@ -141,15 +159,14 @@
       x.addEventListener("click",   (e) => { e.stopPropagation(); removeFilter(x.dataset.lbl); });
       x.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); removeFilter(x.dataset.lbl); } });
       x.addEventListener("mouseenter", () => { x.style.opacity = "1"; });
-      x.addEventListener("mouseleave", () => { x.style.opacity = "0.45"; });
+      x.addEventListener("mouseleave", () => { x.style.opacity = "0.4"; });
     });
 
     $input.placeholder = filters.length ? "" : "Search by type or tech :)";
   }
 
   function applyFilters() {
-    const q      = query.trim().toLowerCase();
-    const hasAny = q.length > 0 || filters.length > 0;
+    const hasAny = filters.length > 0;
     let visible  = 0;
 
     allCards.forEach((card, i) => {
@@ -157,17 +174,12 @@
       let show = false;
 
       if (hasAny) {
-        if (filters.length) {
-          show = filters.some((f) => {
-            const fl = f.label.toLowerCase();
-            if (f.kind === "tech") return p.techs.some((t) => t === fl);
-            if (f.kind === "type") return p.typeLow === fl;
-            return false;
-          });
-        }
-        if (!show && q) {
-          show = p.techs.some((t) => swMatch(t, q)) || (p.type && swMatch(p.type, q));
-        }
+        show = filters.some((f) => {
+          const fl = f.label.toLowerCase();
+          if (f.kind === "tech") return p.techs.some((t) => t === fl);
+          if (f.kind === "type") return p.typeLow === fl;
+          return false;
+        });
       }
 
       card.hidden = !show;

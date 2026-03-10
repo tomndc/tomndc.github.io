@@ -5,6 +5,7 @@ interface Props {
     description: string;
     type?: string;
     technologies: string[] | string;
+    tools?: string[] | string;
     source?: string;
     deploy?: string;
     thumbnail?: string;
@@ -18,6 +19,12 @@ const { item, index = 0 } = Astro.props;
 const tags = Array.isArray(item.technologies)
   ? item.technologies
   : item.technologies.split(",").map((t) => t.trim());
+
+const tools = item.tools
+  ? Array.isArray(item.tools)
+    ? item.tools
+    : item.tools.split(",").map((t) => t.trim())
+  : [];
 
 const initial = item.name.charAt(0).toUpperCase();
 const cardId = `card-${index}`;
@@ -92,6 +99,7 @@ const cardId = `card-${index}`;
 
       <div class="tags" aria-label="Technologies">
         {tags.map((tag) => <span>{tag.trim()}</span>)}
+        {tools.map((tool) => <span class="tool">{tool.trim()}</span>)}
       </div>
     </div>
   </div>
@@ -187,6 +195,7 @@ const cardId = `card-${index}`;
 
     <div class="modal-tags" aria-label="Technologies">
       {tags.map((tag) => <span>{tag.trim()}</span>)}
+      {tools.map((tool) => <span class="tool">{tool.trim()}</span>)}
     </div>
   </div>
 </dialog>
@@ -338,7 +347,8 @@ const cardId = `card-${index}`;
     flex-wrap: wrap;
   }
 
-  .tags span {
+  .tags span,
+  .modal-tags span {
     font-size: 0.63rem;
     font-family: var(--font-mono);
     padding: 0.08rem 0.35rem;
@@ -346,6 +356,11 @@ const cardId = `card-${index}`;
     background: var(--surface-h);
     opacity: 0.7;
     border: 1px solid var(--border);
+  }
+
+  .tags span.tool,
+  .modal-tags span.tool {
+    opacity: 0.35;
   }
 
   .actions {
@@ -573,15 +588,6 @@ const cardId = `card-${index}`;
     display: flex;
     gap: 0.3rem;
     flex-wrap: wrap;
-  }
-  .modal-tags span {
-    font-size: 0.67rem;
-    font-family: var(--font-mono, monospace);
-    padding: 0.12rem 0.4rem;
-    border-radius: 2px;
-    background: var(--surface-h);
-    opacity: 0.75;
-    border: 1px solid var(--border);
   }
 
   @media (max-width: 480px) {

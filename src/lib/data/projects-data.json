@@ -2,40 +2,50 @@
   {
     "name": "store-template",
     "type": "Fullstack",
+    "featured": true,
     "description": "Fullstack ecommerce project with user authentication, product and order management, real-time features, notifications, document generation, automated testing, and API documentation.",
-    "technologies": ["Javascript", "NodeJS", "Mongoose", "Passport", "Multer","Socket.io","pdfkit","Swagger","Nodemailer","Winston","Mocha","Supertest"],
+    "technologies": ["Javascript", "NodeJS", "Mongoose", "Socket.io", "Swagger"],
+    "tools": ["Passport", "Multer", "pdfkit", "Nodemailer", "Winston", "Mocha", "Supertest"],
     "deploy": "https://fakelibre-coderhouse-deploy-production.up.railway.app/",
     "source": "https://github.com/tomndc/store-template"
   },
   {
     "name": "mini-docs",
     "type": "Fullstack",
-    "description": "Fullstack ecommerce project with user authentication, product and order management, real-time features, notifications, document generation, automated testing, and API documentation.",
-    "technologies": ["Typescript", "ExpressJS","Websockets","Prisma","PostgreSQL","Vite"],
+    "featured": true,
+    "description": "Collaborative document editor with real-time sync, built with a modern fullstack TypeScript setup.",
+    "technologies": ["Typescript", "ExpressJS", "Websockets", "Prisma", "PostgreSQL", "Vite"],
+    "tools": [],
     "deploy": "",
     "source": "https://github.com/tomndc/mini-docs"
   },
   {
     "name": "gcalendar-cli",
     "type": "CLI",
+    "featured": false,
     "description": "A simple but effective CLI that allows you to access your Google Calendar and operate from a command line.",
     "technologies": ["Python", "Google API"],
+    "tools": [],
     "deploy": "",
     "source": "https://github.com/tomndc/gcalendar-cli"
   },
   {
     "name": "Nativo",
     "type": "Web Design",
+    "featured": true,
     "description": "Audiovisual collection of the National University of Hurlingham.",
     "technologies": ["PHP", "Laravel"],
+    "tools": [],
     "deploy": "https://nativo.unahur.edu.ar/",
     "source": ""
   },
   {
     "name": "Docentes UNAHUR",
     "type": "Web Design",
+    "featured": false,
     "description": "Institutional website for teachers.",
-    "technologies": ["Wordpress", "Javascript"],
+    "technologies": ["Javascript", "Wordpress"],
+    "tools": [],
     "deploy": "https://docentes.unahur.edu.ar/",
     "source": ""
   }

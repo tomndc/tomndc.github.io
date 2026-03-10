@@ -11,8 +11,7 @@ const { name, subtitle, avatar } = Astro.props;
 <div class="profile">
   <div class="avatar-wrap">
     <img src={avatar} alt={name} class="avatar" />
-
-    <span class="bubble"> Say hi! </span>
+    <span class="bubble">Say hi!</span>
   </div>
 
   <div class="info">
@@ -35,26 +34,30 @@ const { name, subtitle, avatar } = Astro.props;
     position: relative;
     width: 48px;
     height: 48px;
-    border-radius: 50%;
+    flex-shrink: 0;
   }
 
   .avatar {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
+    border-radius: 5px;
     object-fit: cover;
     display: block;
-    overflow: hidden;
-  }
-
-  .avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  img {
+    border: 1px solid inherit;
     transform: scaleX(-1);
+    transition: border-color 0.15s;
+  }
+
+  :global(body.light) .avatar {
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .avatar-wrap:hover .avatar {
+    border-color: rgba(255, 255, 255, 0.22);
+  }
+
+  :global(body.light) .avatar-wrap:hover .avatar {
+    border-color: rgba(0, 0, 0, 0.22);
   }
 
   .bubble {
@@ -63,20 +66,27 @@ const { name, subtitle, avatar } = Astro.props;
     top: 50%;
     transform: translateY(-50%) translateX(4px);
 
-    background: color-mix(in srgb, currentColor 12%, transparent);
-    color: currentColor;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: inherit;
 
-    font-size: 12px;
-    padding: 3px 7px;
-    border-radius: 6px;
+    font-size: 11px;
+    font-family: inherit;
+    padding: 3px 8px;
+    border-radius: 3px;
 
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
 
     transition:
-      opacity 0.2s ease,
-      transform 0.2s ease;
+      opacity 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  :global(body.light) .bubble {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
   }
 
   .avatar-wrap:hover .bubble {
@@ -89,11 +99,12 @@ const { name, subtitle, avatar } = Astro.props;
     font-size: 18px;
     font-weight: 600;
     line-height: 1.1;
+    letter-spacing: -0.02em;
   }
 
   .info p {
-    margin: 1px 0 0;
+    margin: 2px 0 0;
     font-size: 13px;
-    opacity: 0.7;
+    opacity: 0.45;
   }
 </style>
