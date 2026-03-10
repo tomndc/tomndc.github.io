@@ -32,7 +32,7 @@
   {
     "name": "Nativo",
     "type": "Web Design",
-    "featured": true,
+    "featured": false,
     "description": "Audiovisual collection of the National University of Hurlingham.",
     "technologies": ["PHP", "Laravel"],
     "tools": [],
