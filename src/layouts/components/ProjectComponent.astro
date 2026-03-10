@@ -3,112 +3,251 @@ interface Props {
   item: {
     name: string;
     description: string;
+    type?: string;
     technologies: string[] | string;
     source?: string;
     deploy?: string;
     thumbnail?: string;
+    images?: string[];
   };
+  index?: number;
 }
 
-const { item } = Astro.props;
+const { item, index = 0 } = Astro.props;
 
 const tags = Array.isArray(item.technologies)
   ? item.technologies
-  : item.technologies.split(",");
+  : item.technologies.split(",").map((t) => t.trim());
 
 const initial = item.name.charAt(0).toUpperCase();
+const cardId = `card-${index}`;
 ---
 
-<article class="row">
-  <div class="thumb">
-    {
-      item.thumbnail ? (
-        <img src={item.thumbnail} alt={item.name} />
-      ) : (
-        <span class="thumb-letter">{initial}</span>
-      )
-    }
+<article
+  class="card"
+  id={cardId}
+  tabindex="0"
+  role="button"
+  aria-expanded="false"
+  aria-haspopup="dialog"
+  aria-label={`${item.name} — click to expand`}
+  data-card
+  style={`animation-delay:${index * 35}ms`}
+>
+  <div class="card-inner">
+    <div class="thumb" aria-hidden="true">
+      {
+        item.thumbnail ? (
+          <img src={item.thumbnail} alt="" />
+        ) : (
+          <span class="thumb-letter">{initial}</span>
+        )
+      }
+    </div>
+
+    <div class="content">
+      <div class="header">
+        <div class="title-row">
+          <h3>{item.name}</h3>
+          {item.type && <span class="type-badge">{item.type}</span>}
+        </div>
+        <div class="actions">
+          {
+            item.source && (
+              <a
+                href={item.source}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Source — ${item.name}`}
+                title="Source code"
+                onclick="event.stopPropagation()"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 .5C5.73.5.5 5.87.5 12.35c0 5.18 3.44 9.58 8.2 11.13.6.12.82-.27.82-.58v-2.17c-3.34.75-4.04-1.65-4.04-1.65-.55-1.42-1.35-1.8-1.35-1.8-1.1-.78.08-.77.08-.77 1.22.09 1.86 1.3 1.86 1.3 1.08 1.9 2.83 1.35 3.52 1.03.11-.81.42-1.35.76-1.66-2.66-.31-5.46-1.37-5.46-6.08 0-1.34.46-2.43 1.22-3.29-.12-.31-.53-1.57.12-3.27 0 0 1-.33 3.3 1.26a11.2 11.2 0 0 1 6 0c2.3-1.6 3.3-1.26 3.3-1.26.65 1.7.24 2.96.12 3.27.76.86 1.22 1.95 1.22 3.29 0 4.72-2.8 5.76-5.47 6.07.43.38.81 1.12.81 2.27v3.36c0 .32.22.7.83.58 4.76-1.55 8.19-5.95 8.19-11.13C23.5 5.87 18.27.5 12 .5z" />
+                </svg>
+              </a>
+            )
+          }
+          {
+            item.deploy && item.deploy.trim() !== "" && (
+              <a
+                href={item.deploy}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Live demo — ${item.name}`}
+                title="Live demo"
+                onclick="event.stopPropagation()"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z" />
+                  <path d="M5 5h6V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-2v6H5V5z" />
+                </svg>
+              </a>
+            )
+          }
+        </div>
+      </div>
+
+      <p>{item.description}</p>
+
+      <div class="tags" aria-label="Technologies">
+        {tags.map((tag) => <span>{tag.trim()}</span>)}
+      </div>
+    </div>
   </div>
+</article>
 
-  <div class="content">
-    <div class="header">
-      <h3>{item.name}</h3>
+<!-- Modal -->
+<dialog
+  class="card-modal"
+  id={`modal-${index}`}
+  aria-label={item.name}
+  data-modal
+>
+  <div class="modal-inner">
+    <!-- Top bar: title + close -->
+    <div class="modal-topbar">
+      <div class="modal-title-row">
+        <div class="thumb-lg" aria-hidden="true">
+          {
+            item.thumbnail ? (
+              <img src={item.thumbnail} alt="" />
+            ) : (
+              <span class="thumb-letter">{initial}</span>
+            )
+          }
+        </div>
+        <div class="modal-name-wrap">
+          <h2>{item.name}</h2>
+          {item.type && <span class="type-badge">{item.type}</span>}
+        </div>
+      </div>
 
-      <div class="actions">
-        {
-          item.source && (
+      <button class="modal-close" aria-label="Close" data-close>
+        <svg viewBox="0 0 14 14" aria-hidden="true">
+          <path
+            d="M11 3L3 11M3 3l8 8"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Links row (separate from topbar) -->
+    {
+      (item.source || (item.deploy && item.deploy.trim() !== "")) && (
+        <div class="modal-links">
+          {item.source && (
             <a
               href={item.source}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Source code"
-              title="Source code"
+              class="modal-link"
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 .5C5.73.5.5 5.87.5 12.35c0 5.18 3.44 9.58 8.2 11.13.6.12.82-.27.82-.58v-2.17c-3.34.75-4.04-1.65-4.04-1.65-.55-1.42-1.35-1.8-1.35-1.8-1.1-.78.08-.77.08-.77 1.22.09 1.86 1.3 1.86 1.3 1.08 1.9 2.83 1.35 3.52 1.03.11-.81.42-1.35.76-1.66-2.66-.31-5.46-1.37-5.46-6.08 0-1.34.46-2.43 1.22-3.29-.12-.31-.53-1.57.12-3.27 0 0 1-.33 3.3 1.26a11.2 11.2 0 0 1 6 0c2.3-1.6 3.3-1.26 3.3-1.26.65 1.7.24 2.96.12 3.27.76.86 1.22 1.95 1.22 3.29 0 4.72-2.8 5.76-5.47 6.07.43.38.81 1.12.81 2.27v3.36c0 .32.22.7.83.58 4.76-1.55 8.19-5.95 8.19-11.13C23.5 5.87 18.27.5 12 .5z" />
               </svg>
+              Source
             </a>
-          )
-        }
-        {
-          item.deploy && item.deploy.trim() !== "" && (
+          )}
+          {item.deploy && item.deploy.trim() !== "" && (
             <a
               href={item.deploy}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Live demo"
-              title="Live demo"
+              class="modal-link accent"
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z" />
                 <path d="M5 5h6V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-2v6H5V5z" />
               </svg>
+              Live demo
             </a>
-          )
-        }
-      </div>
-    </div>
+          )}
+        </div>
+      )
+    }
 
-    <p>{item.description}</p>
+    <p class="modal-desc">{item.description}</p>
 
-    <div class="tags">
-      {tags.map((tag) => <span>{tag}</span>)}
+    {
+      item.images && item.images.length > 0 && (
+        <div class="modal-images">
+          {item.images.map((src, i) => (
+            <img
+              src={src}
+              alt={`${item.name} screenshot ${i + 1}`}
+              loading="lazy"
+            />
+          ))}
+        </div>
+      )
+    }
+
+    <div class="modal-tags" aria-label="Technologies">
+      {tags.map((tag) => <span>{tag.trim()}</span>)}
     </div>
   </div>
-</article>
+</dialog>
 
 <style>
-  .row {
-    display: grid;
-    grid-template-columns: 44px 1fr;
-    align-items: start;
-    gap: 0.75rem;
-    padding: 0.5rem 0;
-    transition: transform 0.25s ease;
+  .card {
+    border-radius: 3px;
+    border: 1px solid var(--card-border, rgba(255, 255, 255, 0.07));
+    background: var(--card-bg, rgba(255, 255, 255, 0.025));
+    cursor: pointer;
+    transition:
+      border-color 0.16s ease,
+      background 0.16s ease,
+      transform 0.16s ease,
+      box-shadow 0.16s ease;
+    outline: none;
+    animation: cardIn 0.3s ease both;
   }
-  .row:hover {
-    transform: translateY(-2px);
+
+  @keyframes cardIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card:hover {
+    border-color: rgba(255, 255, 255, 0.13);
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .card:focus-visible {
+    border-color: var(--accent, #7c6ef7);
+    box-shadow: 0 0 0 2px rgba(124, 110, 247, 0.22);
+  }
+
+  .card-inner {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 0.75rem;
+    padding: 0.85rem 0.9rem;
+    align-items: start;
   }
 
   .thumb {
-    width: 34px;
-    height: 34px;
-    border-radius: 5px;
-    background: color-mix(in srgb, currentColor 12%, transparent);
+    width: 36px;
+    height: 36px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.06);
     overflow: hidden;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    transition:
-      border-color 0.25s ease,
-      transform 0.25s ease;
-    border: 2px solid transparent;
-  }
-  .row:hover .thumb {
-    border-color: rgba(255, 255, 255, 0.25);
-    transform: scale(1.03);
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .thumb img {
@@ -118,74 +257,336 @@ const initial = item.name.charAt(0).toUpperCase();
   }
 
   .thumb-letter {
-    font-size: 1.1rem;
-    font-weight: 600;
-    opacity: 0.8;
-    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: 700;
+    opacity: 0.35;
+    font-family: var(--font-mono, monospace);
   }
 
   .content {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.22rem;
+    min-width: 0;
   }
 
   .header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 1.75rem;
+    gap: 0.5rem;
+  }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    min-width: 0;
   }
 
   .content h3 {
     margin: 0;
-    font-size: 1em;
+    font-size: 0.845rem;
     font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .type-badge {
+    font-size: 0.6rem;
+    font-family: var(--font-mono, monospace);
+    padding: 0.1rem 0.38rem;
+    border-radius: 2px;
+    background: var(--accent-dim, rgba(124, 110, 247, 0.1));
+    color: var(--accent, #7c6ef7);
+    border: 1px solid var(--accent-border, rgba(124, 110, 247, 0.22));
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .content p {
-    margin: 0.15rem 0 0.5rem;
-    font-size: 0.85em;
-    opacity: 0.75;
-    line-height: 1.4;
+    margin: 0.08rem 0 0.35rem;
+    font-size: 0.76rem;
+    opacity: 0.5;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .tags {
     display: flex;
-    gap: 0.4rem;
+    gap: 0.28rem;
     flex-wrap: wrap;
-    font-size: 0.75em;
-  }
-  .tags span {
-    padding: 0.1rem 0.4rem;
-    border-radius: 4px;
-    background: color-mix(in srgb, currentColor 10%, transparent);
-    opacity: 0.85;
-  }
-  .actions {
-    display: flex;
-    gap: 0.6rem;
-    margin-top: 0.1rem;
-    font-size: 0.8em;
-    opacity: 0.6;
-    transition: opacity 0.25s ease;
-  }
-  .row:hover .actions {
-    opacity: 1;
   }
 
+  .tags span {
+    font-size: 0.63rem;
+    font-family: var(--font-mono, monospace);
+    padding: 0.08rem 0.35rem;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.045);
+    opacity: 0.6;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    opacity: 0.3;
+    transition: opacity 0.16s ease;
+    margin-top: 2px;
+  }
+  .card:hover .actions,
+  .card:focus-within .actions {
+    opacity: 1;
+  }
   .actions a {
     display: inline-flex;
-    width: 16px;
-    height: 16px;
+    width: 13px;
+    height: 13px;
     color: inherit;
+    transition: opacity 0.13s ease;
   }
   .actions a:hover {
-    opacity: 1;
+    opacity: 0.6;
+  }
+  .actions a:focus-visible {
+    outline: 2px solid var(--accent, #7c6ef7);
+    outline-offset: 3px;
+    border-radius: 1px;
   }
   .actions svg {
     width: 100%;
     height: 100%;
     fill: currentColor;
   }
+  .card-modal {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    max-width: 540px;
+    width: calc(100% - 2rem);
+    max-height: min(580px, calc(100vh - 2rem));
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--modal-bg, #111114);
+    color: inherit;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
+    outline: none;
+  }
+
+  .card-modal::backdrop {
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(3px);
+  }
+
+  .card-modal[open] {
+    animation: modalIn 0.18s ease;
+  }
+
+  @keyframes modalIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .modal-inner {
+    padding: 1.4rem 1.5rem 1.5rem;
+    overflow-y: auto;
+    max-height: min(580px, calc(100vh - 2rem));
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  }
+
+  .modal-topbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .modal-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+  }
+
+  .thumb-lg {
+    width: 42px;
+    height: 42px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .thumb-lg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .thumb-lg .thumb-letter {
+    font-size: 1.1rem;
+  }
+
+  .modal-name-wrap {
+    min-width: 0;
+  }
+  .modal-name-wrap h2 {
+    margin: 0 0 0.22rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .modal-close {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 3px;
+    cursor: pointer;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    margin-top: 1px;
+    transition: background 0.13s ease;
+  }
+
+  .modal-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .modal-close:focus-visible {
+    outline: 2px solid var(--accent, #7c6ef7);
+    outline-offset: 2px;
+  }
+  .modal-close svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .modal-links {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+
+  .modal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    color: inherit;
+    opacity: 0.5;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.24rem 0.6rem;
+    border-radius: 2px;
+    transition:
+      opacity 0.13s,
+      border-color 0.13s;
+    font-family: var(--font-mono, monospace);
+  }
+
+  .modal-link:hover {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.22);
+  }
+  .modal-link:focus-visible {
+    outline: 2px solid var(--accent, #7c6ef7);
+    outline-offset: 2px;
+  }
+
+  .modal-link.accent {
+    opacity: 0.85;
+    color: var(--accent, #7c6ef7);
+    border-color: var(--accent-border, rgba(124, 110, 247, 0.22));
+    background: var(--accent-dim, rgba(124, 110, 247, 0.08));
+  }
+
+  .modal-link svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+  }
+
+  .modal-desc {
+    margin: 0;
+    font-size: 0.82rem;
+    opacity: 0.6;
+    line-height: 1.65;
+  }
+
+  .modal-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+  }
+  .modal-images img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .modal-tags {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+  .modal-tags span {
+    font-size: 0.67rem;
+    font-family: var(--font-mono, monospace);
+    padding: 0.12rem 0.4rem;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.055);
+    opacity: 0.7;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
 </style>
+
+<script>
+  document.querySelectorAll("[data-card]").forEach((card) => {
+    const modal = document.getElementById(
+      `modal-${card.id.replace("card-", "")}`,
+    );
+    if (!modal) return;
+    const open = () => modal.showModal();
+    const close = () => modal.close();
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        open();
+      }
+    });
+    modal.querySelector("[data-close]")?.addEventListener("click", close);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) close();
+    });
+  });
+</script>

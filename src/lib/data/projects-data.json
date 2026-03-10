@@ -1,6 +1,7 @@
 [
   {
     "name": "store-template",
+    "type": "Fullstack",
     "description": "Fullstack ecommerce project with user authentication, product and order management, real-time features, notifications, document generation, automated testing, and API documentation.",
     "technologies": ["Javascript", "NodeJS", "Mongoose", "Passport", "Multer","Socket.io","pdfkit","Swagger","Nodemailer","Winston","Mocha","Supertest"],
     "deploy": "https://fakelibre-coderhouse-deploy-production.up.railway.app/",
@@ -8,6 +9,7 @@
   },
   {
     "name": "mini-docs",
+    "type": "Web Scrapping",
     "description": "Fullstack ecommerce project with user authentication, product and order management, real-time features, notifications, document generation, automated testing, and API documentation.",
     "technologies": ["Typescript", "ExpressJS","Websockets","Prisma","PostgreSQL","Vite"],
     "deploy": "",
@@ -15,6 +17,7 @@
   },
   {
     "name": "gcalendar-cli",
+    "type": "CLI",
     "description": "A simple but effective CLI that allows you to access your Google Calendar and operate from a command line.",
     "technologies": ["Python", "Google API"],
     "deploy": "",
@@ -22,6 +25,7 @@
   },
   {
     "name": "Nativo",
+    "type": "Web Design",
     "description": "Audiovisual collection of the National University of Hurlingham.",
     "technologies": ["PHP", "Laravel"],
     "deploy": "https://nativo.unahur.edu.ar/",
@@ -29,6 +33,7 @@
   },
   {
     "name": "Docentes UNAHUR",
+      "type": "Web Design",
     "description": "Institutional website for teachers.",
     "technologies": ["Wordpress", "Javascript"],
     "deploy": "https://docentes.unahur.edu.ar/",
