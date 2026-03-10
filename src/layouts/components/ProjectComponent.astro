@@ -192,17 +192,15 @@ const cardId = `card-${index}`;
 </dialog>
 
 <style>
-  .card {
-    --accent: #7c6ef7;
-    --accent-dim: rgba(124, 110, 247, 0.1);
-    --accent-bdr: rgba(124, 110, 247, 0.22);
-    --font-mono: "IBM Plex Mono", "Fira Mono", monospace;
-    --border: rgba(255, 255, 255, 0.1);
-    --border-h: rgba(255, 255, 255, 0.18);
-    --surface: rgba(255, 255, 255, 0.03);
-    --surface-h: rgba(255, 255, 255, 0.06);
+  :global(:root) {
     --modal-bg: #111114;
+  }
 
+  :global(body.light) {
+    --modal-bg: #f9f9f9;
+  }
+
+  .card {
     border-radius: 3px;
     border: 1px solid var(--border);
     background: var(--surface);
@@ -232,7 +230,6 @@ const cardId = `card-${index}`;
     --border-h: rgba(0, 0, 0, 0.18);
     --surface: rgba(0, 0, 0, 0.03);
     --surface-h: rgba(0, 0, 0, 0.06);
-    --modal-bg: #f9f9f9;
   }
 
   .card:hover {
