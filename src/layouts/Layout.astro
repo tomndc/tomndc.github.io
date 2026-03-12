@@ -1,54 +1,138 @@
 ---
-import "../layouts/styles/global.css";
+import "../styles/global.css";
+import socials from "../lib/data/socials-data.json";
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
+    <title>/tomndc</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"
-    ></script>
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <script src="/theme.js" is:inline defer></script>
   </head>
-  <header>
-    <div class="links">
-      <!-- 
-      <a class="section-link" href="#projects">projects</a>
-      <a class="section-link" href="#design">design</a>
-      <a class="section-link" href="#stack">stack</a>
-      <a class="section-link" href="#experience">work</a>
-      -->
-    </div>
 
-    <div class="utilities">
-      <!-- <a class="section-link" href="#notes"><b>notes</b></a> -->
-      <span id="theme-toggle" class="theme-toggle">
-        <svg
-          id="theme-icon"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M20.512,20.965h0A8.969,8.969,0,0,1,19,15.972V9.293A8.213,8.213,0,0,0,11.246,1,8,8,0,0,0,3,9v3A11.013,11.013,0,0,0,14,23h6a1,1,0,0,0,.833-1.554ZM14,21a9.011,9.011,0,0,1-9-9V9a6,6,0,0,1,6-6l.187,0A6.2,6.2,0,0,1,17,9.293v6.679A10.954,10.954,0,0,0,18.216,21Z"
-          ></path><path d="M9,9A1,1,0,0,0,7,9v2a1,1,0,0,0,2,0Z"></path><path
-            d="M14,8a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V9A1,1,0,0,0,14,8Z"
-          ></path><path d="M12,13H10a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z"></path>
-        </svg>
-      </span>
-    </div>
-  </header>
   <body>
-    <!-- Main content -->
-    <main>
-      <slot />
-    </main>
+    <nav class="navbar">
+      <span class="nav-brand">/tomndc</span>
+      <div class="nav-tabs" role="tablist">
+        <button class="nav-tab is-active" data-section="work" role="tab">work</button>
+        <button class="nav-tab" data-section="experience" role="tab">experience</button>
+      </div>
+      <div id="theme-toggle" class="theme-switch" title="Toggle theme">
+        <button class="tseg" data-t="system" aria-label="System theme">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </button>
+        <button class="tseg" data-t="light" aria-label="Light theme">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
+        <button class="tseg" data-t="dark" aria-label="Dark theme">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <main><slot /></main>
+
+    <footer class="footer">
+      <span class="footer-left">
+        Made with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>
+        by <a href={socials.githubUrl} target="_blank" rel="noopener noreferrer">tomndc</a>
+        <span class="footer-time" id="footer-time"></span>
+      </span>
+      <span class="footer-socials">
+        <a href={socials.githubUrl}   target="_blank" rel="noopener noreferrer">github</a>
+        <span class="sep">·</span>
+        <a href={socials.linkedinUrl} target="_blank" rel="noopener noreferrer">linkedin</a>
+        <span class="sep">·</span>
+        <a href={socials.behanceUrl}  target="_blank" rel="noopener noreferrer">behance</a>
+      </span>
+    </footer>
+
+    <script is:inline>
+      (function() {
+        var el = document.getElementById("footer-time");
+        if (!el) return;
+        function fmt() {
+          var d = new Date();
+          var h = d.getHours().toString().padStart(2,"0");
+          var m = d.getMinutes().toString().padStart(2,"0");
+          el.textContent = "· " + h + ":" + m;
+        }
+        fmt();
+        setInterval(fmt, 30000);
+      })();
+    </script>
+    <script is:inline src="/scripts/spa.js" defer></script>
   </body>
-  <footer></footer>
-
-
 </html>
+
+<style>
+  .navbar {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.7rem 0.75rem 0.38rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg); z-index: 100; flex-shrink: 0;
+  }
+
+  .nav-brand {
+    font-size: 0.72rem; font-weight: 500; opacity: 0.4;
+    flex-shrink: 0; font-family: var(--font-mono); letter-spacing: -0.02em;
+  }
+
+  .nav-tabs { display: flex; gap: 0.1rem; flex: 1; }
+
+  .nav-tab {
+    background: none; border: none; cursor: pointer;
+    font: inherit; font-size: 0.71rem; color: inherit;
+    opacity: 0.32; padding: 0.18rem 0.48rem; border-radius: 3px;
+    transition: opacity 0.15s, background 0.15s;
+  }
+  .nav-tab:hover     { opacity: 0.6; background: var(--surface-h); }
+  .nav-tab.is-active { opacity: 1; background: var(--surface-h); }
+
+  .theme-switch {
+    display: flex; align-items: center;
+    border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden; flex-shrink: 0;
+  }
+  .tseg {
+    display: flex; align-items: center; justify-content: center;
+    width: 26px; height: 22px;
+    background: none; border: none; cursor: pointer;
+    color: inherit; opacity: 0.3; padding: 0;
+    transition: background 0.12s, opacity 0.12s;
+  }
+  .tseg:hover     { opacity: 0.7; background: var(--surface-h); }
+  .tseg.ts-active { opacity: 1; background: var(--surface-h); }
+  .tseg + .tseg   { border-left: 1px solid var(--border); }
+
+  .footer {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.45rem 0.75rem;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .footer a, .footer-time {
+    font-size: 0.62rem; font-family: var(--font-mono);
+    color: inherit; text-decoration: none; opacity: 0.3;
+    transition: opacity 0.15s;
+  }
+  .footer a:hover { opacity: 0.75; }
+  .footer-time { opacity: 0.2; }
+
+  .footer-left {
+    display: flex; align-items: center; gap: 0.25rem;
+    font-size: 0.62rem; font-family: var(--font-mono); opacity: 0.3;
+    flex-shrink: 0;
+  }
+  .footer-left a { font-size: inherit; opacity: 1; }
+
+  .footer-socials {
+    display: flex; align-items: center; gap: 0.3rem;
+  }
+  .sep { font-size: 0.6rem; opacity: 0.15; }
+</style>

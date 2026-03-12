@@ -1,0 +1,146 @@
+---
+interface Props {
+  item: {
+    name: string;
+    type?: string;
+    description: string;
+    technologies: string[] | string;
+    tools?: string[] | string;
+    thumbnail?: string;
+  };
+  index: number;
+}
+
+const { item, index } = Astro.props;
+
+const tags: string[] = Array.isArray(item.technologies)
+  ? item.technologies
+  : item.technologies.split(",").map((t) => t.trim());
+
+const tools: string[] = item.tools
+  ? Array.isArray(item.tools) ? item.tools : item.tools.split(",").map((t) => t.trim())
+  : [];
+
+const initial = item.name.charAt(0).toUpperCase();
+---
+
+<article
+  class="card"
+  id={`card-${index}`}
+  tabindex="0"
+  role="button"
+  aria-label={item.name}
+  data-project-btn
+  data-project-id={item.name}
+  style={`animation-delay:${index * 30}ms`}
+  hidden
+>
+  <div class="card-inner">
+    <div class="thumb" aria-hidden="true">
+      {item.thumbnail
+        ? <img src={item.thumbnail} alt="" />
+        : <span class="thumb-letter">{initial}</span>
+      }
+    </div>
+    <div class="content">
+      <div class="title-row">
+        <div class="title-left">
+          <h3>{item.name}</h3>
+          {item.type && <span class="type-badge">{item.type}</span>}
+        </div>
+        <svg class="expand-icon" viewBox="0 0 14 14" aria-hidden="true" fill="none">
+          <path d="M5 2h7v7" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 2L2 12" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p>{item.description}</p>
+      <div class="tags">
+        {tags.map((t) => <span>{t}</span>)}
+        {tools.map((t) => <span class="tool">{t}</span>)}
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer; display: block; width: 100%;
+    text-align: left; color: inherit; font: inherit;
+    outline: none;
+    transition: border-color 0.16s, background 0.16s, transform 0.16s;
+    animation: cardIn 0.25s ease both;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card:hover {
+    border-color: var(--border-h);
+    background: var(--surface-h);
+    transform: translateY(-1px);
+  }
+
+  .card-inner {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 0.7rem;
+    padding: 0.75rem 0.85rem;
+    align-items: start;
+  }
+
+  .thumb {
+    width: 36px; height: 36px;
+    border-radius: 3px; border: 1px solid var(--border);
+    background: var(--surface-h);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; flex-shrink: 0;
+  }
+  .thumb img    { width: 100%; height: 100%; object-fit: cover; }
+  .thumb-letter { font-size: 0.9rem; font-weight: 700; opacity: 0.35; }
+
+  .content { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+
+  .title-row {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 0.4rem;
+  }
+
+  .title-left {
+    display: flex; align-items: center;
+    gap: 0.4rem; flex-wrap: wrap; min-width: 0;
+  }
+
+  .content h3    { margin: 0; font-size: 0.84rem; font-weight: 600; }
+  .type-badge {
+    font-size: 0.6rem; font-family: var(--font-mono);
+    padding: 0.08rem 0.36rem; border-radius: 2px;
+    background: var(--accent-dim); color: var(--accent);
+    border: 1px solid var(--accent-border);
+    font-weight: 500; text-transform: uppercase; white-space: nowrap;
+  }
+
+  .expand-icon {
+    width: 11px; height: 11px;
+    flex-shrink: 0; opacity: 0.2;
+    transition: opacity 0.15s;
+    margin-top: 2px;
+  }
+  .card:hover .expand-icon { opacity: 0.55; }
+
+  .content p {
+    margin: 0.05rem 0 0.3rem;
+    font-size: 0.75rem; opacity: 0.5; line-height: 1.5;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .tags { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+  .tags span {
+    font-size: 0.62rem; font-family: var(--font-mono);
+    padding: 0.07rem 0.32rem; border-radius: 2px;
+    background: var(--surface-h); opacity: 0.7; border: 1px solid var(--border);
+  }
+  .tags span.tool { opacity: 0.35; }
+</style>

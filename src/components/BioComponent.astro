@@ -1,0 +1,209 @@
+---
+interface Props {
+  name: string;
+  subtitle: string;
+  avatar: string;
+  searchTitle?: string;
+  searchSubtitle?: string;
+  tagsTitle?: string;
+  tagsSubtitle?: string;
+  featuredTitle?: string;
+  featuredSubtitle?: string;
+}
+
+const {
+  name,
+  subtitle,
+  avatar,
+  searchTitle      = name,
+  searchSubtitle   = subtitle,
+  tagsTitle        = searchTitle,
+  tagsSubtitle     = searchSubtitle,
+  featuredTitle    = name,
+  featuredSubtitle = subtitle,
+} = Astro.props;
+---
+
+<div class="bio-profile">
+  <div class="av-wrap">
+    <img src={avatar} alt={name} class="av av-a" />
+
+    <div class="av av-b" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="100%">
+        <path fill="#a9e2fc" d="M20,8.24V20c0,1.1-0.9,2-2,2H6c-1.1,0-2-0.9-2-2V4c0-1.1,0.9-2,2-2h7.76c0.79,0,1.56,0.32,2.12,0.88l3.24,3.24C19.68,6.68,20,7.45,20,8.24z"/>
+        <path fill="#039be5" d="M17.24,9h-3.48C13.34,9,13,8.66,13,8.24V4.76c0-0.68,0.82-1.01,1.3-0.54l3.48,3.48C18.25,8.18,17.92,9,17.24,9z"/>
+      </svg>
+    </div>
+
+    <div class="av av-c" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="100%" fill="none">
+        <rect x="3"  y="3"  width="8" height="8" rx="1.5" fill="var(--accent)" opacity="0.9"/>
+        <rect x="13" y="3"  width="8" height="8" rx="1.5" fill="var(--accent)" opacity="0.6"/>
+        <rect x="3"  y="13" width="8" height="8" rx="1.5" fill="var(--accent)" opacity="0.6"/>
+        <rect x="13" y="13" width="8" height="8" rx="1.5" fill="var(--accent)" opacity="0.9"/>
+      </svg>
+    </div>
+
+    <span class="bubble">Say hi!</span>
+  </div>
+
+  <div class="bio-info">
+    <h2>
+      <span class="t t-a">{name}</span>
+      <span class="t t-b" aria-hidden="true">{searchTitle}</span>
+      <span class="t t-c" aria-hidden="true">{tagsTitle}</span>
+      <span class="t t-d" aria-hidden="true">{featuredTitle}</span>
+    </h2>
+    <p>
+      <span class="t t-a sub">{subtitle}</span>
+      <span class="t t-b sub" aria-hidden="true">{searchSubtitle}</span>
+      <span class="t t-c sub" aria-hidden="true">{tagsSubtitle}</span>
+      <span class="t t-d sub" aria-hidden="true">{featuredSubtitle}</span>
+    </p>
+  </div>
+</div>
+
+<style>
+  .bio-profile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: fit-content;
+  }
+
+  .av-wrap {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .av {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    transition: opacity 0.3s ease;
+  }
+
+  .av-a {
+    object-fit: cover;
+    border: 1px solid var(--border);
+    transform: scaleX(-1);
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .av-b {
+    opacity: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: rgba(3, 155, 229, 0.08);
+    border: 1px solid rgba(3, 155, 229, 0.2);
+    padding: 4px;
+  }
+
+  .av-c {
+    opacity: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    padding: 7px;
+  }
+
+  :global(body[data-bio-state="searching"]) .av-a { opacity: 0; }
+  :global(body[data-bio-state="searching"]) .av-b { opacity: 1; }
+
+  :global(body[data-bio-state="many-tags"]) .av-a { opacity: 0; }
+  :global(body[data-bio-state="many-tags"]) .av-b { opacity: 1; }
+
+  :global(body[data-bio-state="featured"]) .av-a { opacity: 0; }
+  :global(body[data-bio-state="featured"]) .av-c { opacity: 1; }
+
+  .bubble {
+    position: absolute;
+    right: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%) translateX(4px);
+    background: var(--surface-h);
+    border: 1px solid var(--border);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.18s, transform 0.18s;
+  }
+  .av-wrap:hover .bubble {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .bio-info h2 {
+    position: relative;
+    height: 1.3em;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .bio-info p {
+    position: relative;
+    height: 1.4em;
+    margin: 2px 0 0;
+    font-size: 13px;
+  }
+
+  .t {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  .t-a {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .t-a.sub { opacity: 0.45; }
+
+  :global(body[data-bio-state="searching"]) .t-a,
+  :global(body[data-bio-state="many-tags"])  .t-a,
+  :global(body[data-bio-state="featured"])   .t-a {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  :global(body[data-bio-state="searching"]) .t-b {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  :global(body[data-bio-state="searching"]) .t-b.sub { opacity: 0.45; }
+
+  :global(body[data-bio-state="many-tags"]) .t-c {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  :global(body[data-bio-state="many-tags"]) .t-c.sub { opacity: 0.45; }
+
+  :global(body[data-bio-state="featured"]) .t-d {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  :global(body[data-bio-state="featured"]) .t-d.sub { opacity: 0.45; }
+</style>

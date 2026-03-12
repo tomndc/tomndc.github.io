@@ -1,0 +1,444 @@
+---
+import BioComponent from "../components/BioComponent.astro";
+import SearchBar from "../components/SearchBar.astro";
+import FeaturedRow from "../components/FeaturedRow.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import aboutData from "../lib/data/about-data.json";
+import searchData from "../lib/data/search-data.json";
+import projects from "../lib/data/projects-data.json";
+import socials from "../lib/data/socials-data.json";
+
+const { name: ownerName, avatar, bio, role, company } = aboutData as any;
+const {
+  searchTitle,
+  searchSubtitle,
+  tagsThreshold,
+  tagsTitle,
+  tagsSubtitle,
+  featuredTitle,
+  featuredSubtitle,
+} = searchData as any;
+
+const subtitle = company ? `${role} at ${company}` : role;
+
+const featured = (projects as any[]).filter((p: any) => p.featured === true);
+
+const allTechnologies: string[] = [
+  ...new Set(
+    (projects as any[]).flatMap((p: any) =>
+      Array.isArray(p.technologies)
+        ? p.technologies
+        : p.technologies.split(",").map((t: string) => t.trim()),
+    ),
+  ),
+].sort();
+
+const allTypes: string[] = [
+  ...new Set((projects as any[]).map((p: any) => p.type).filter(Boolean)),
+].sort() as string[];
+---
+
+<section class="work-section" id="section-work">
+  <div class="bio-area">
+    <BioComponent
+      name={ownerName ?? "Tomás Manduca"}
+      subtitle={subtitle}
+      avatar={avatar ?? "/avatar.jpg"}
+      searchTitle={searchTitle}
+      searchSubtitle={searchSubtitle}
+      tagsTitle={tagsTitle}
+      tagsSubtitle={tagsSubtitle}
+      featuredTitle={featuredTitle}
+      featuredSubtitle={featuredSubtitle}
+    />
+    <div class="about-collapsible">
+      <div class="inner">
+        <p class="bio-text">{bio}</p>
+        <p class="socials-line">
+          Reach me on
+          <a
+            href={socials.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer">LinkedIn</a
+          >
+          {
+            socials.githubUrl && (
+              <>
+                {" "}
+                ·{" "}
+                <a
+                  href={socials.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub
+                </a>
+              </>
+            )
+          }
+          {
+            socials.behanceUrl && (
+              <>
+                {" "}
+                ·{" "}
+                <a
+                  href={socials.behanceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Behance
+                </a>
+              </>
+            )
+          }.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ps-area">
+    <SearchBar />
+
+    <div class="display-box" id="display-box">
+      <div id="panel-featured" class="panel">
+        <p class="panel-label">Featured work ({featured.length})</p>
+        <div class="fi-list">
+          {featured.map((p: any) => <FeaturedRow item={p} />)}
+        </div>
+      </div>
+
+      <div id="panel-results" class="panel panel-off">
+        <p class="panel-label" id="ps-meta" aria-live="polite"></p>
+        <div id="ps-grid" class="grid">
+          {
+            (projects as any[]).map((p: any, i: number) => (
+              <ProjectCard item={p} index={i} />
+            ))
+          }
+        </div>
+      </div>
+
+      <div id="panel-detail" class="panel panel-off">
+        <div id="detail-content"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="img-lightbox" class="lightbox" hidden>
+  <button class="lb-close" id="lb-close" aria-label="Close">
+    <svg viewBox="0 0 14 14" fill="none"
+      ><path
+        d="M11 3L3 11M3 3l8 8"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"></path></svg
+    >
+  </button>
+  <img id="lb-img" src="" alt="" />
+</div>
+
+<script
+  define:vars={{
+    projects,
+    allTechnologies,
+    allTypes: [...allTypes, "featured"],
+    tagsThreshold,
+  }}
+>
+  window.__PS_DATA__ = { projects, allTechnologies, allTypes, tagsThreshold };
+</script>
+<script is:inline src="/scripts/search.js"></script>
+
+<style>
+  .work-section {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 12px;
+    overflow: hidden;
+  }
+
+  .bio-area {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex-shrink: 0;
+  }
+  .bio-text {
+    margin: 0;
+    font-size: 0.84rem;
+    opacity: 0.7;
+    line-height: 1.55;
+  }
+  .socials-line {
+    margin: 0;
+    font-size: 0.78rem;
+    opacity: 0.45;
+  }
+  .socials-line a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.15s;
+  }
+  .socials-line a:hover {
+    opacity: 0.75;
+  }
+
+  .ps-area {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.85rem;
+    padding-bottom: 0.55rem;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .display-box {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--surface);
+    margin-top: 0.5rem;
+    flex: 0 1 auto;
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel {
+    padding: 0.65rem 0.8rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .panel::-webkit-scrollbar {
+    width: 3px;
+  }
+  .panel::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+  }
+
+  .panel-off {
+    display: none !important;
+  }
+
+  .panel-label {
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    opacity: 0.35;
+    margin: 0 0 0.5rem;
+  }
+  .fi-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.38rem;
+  }
+
+  :global(.detail-topbar) {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.55rem;
+  }
+  :global(.detail-name-row) {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+    flex: 1;
+  }
+  :global(.detail-thumb) {
+    width: 36px;
+    height: 36px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    background: var(--surface-h);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  :global(.detail-thumb img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  :global(.detail-thumb-letter) {
+    font-size: 1rem;
+    font-weight: 700;
+    opacity: 0.35;
+  }
+  :global(.detail-heading) {
+    margin: 0 0 0.12rem;
+    font-size: 0.93rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  :global(.detail-type) {
+    font-size: 0.58rem;
+    font-family: var(--font-mono);
+    padding: 0.07rem 0.34rem;
+    border-radius: 2px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  :global(.detail-links) {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+  :global(.detail-link) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.71rem;
+    color: inherit;
+    opacity: 0.45;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.18rem 0.52rem;
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    transition:
+      opacity 0.13s,
+      border-color 0.13s;
+  }
+  :global(.detail-link:hover) {
+    opacity: 1;
+    border-color: var(--border-h);
+  }
+  :global(.detail-link.accent) {
+    opacity: 0.85;
+    color: var(--accent);
+    border-color: var(--accent-border);
+    background: var(--accent-dim);
+    transition:
+      opacity 0.15s,
+      background 0.15s,
+      border-color 0.15s;
+  }
+  :global(.detail-link.accent:hover) {
+    opacity: 1;
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  :global(.detail-link svg) {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+  }
+  :global(.detail-desc) {
+    margin: 0 0 0.55rem;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    line-height: 1.6;
+  }
+  :global(.detail-images) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.35rem;
+    margin-bottom: 0.55rem;
+  }
+  :global(.detail-img-btn) {
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    display: block;
+    transition:
+      border-color 0.15s,
+      transform 0.15s;
+  }
+  :global(.detail-img-btn:hover) {
+    border-color: var(--border-h);
+    transform: scale(1.01);
+  }
+  :global(.detail-img-btn img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  :global(.detail-tags) {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+  }
+  :global(.detail-tags span) {
+    font-size: 0.62rem;
+    font-family: var(--font-mono);
+    padding: 0.07rem 0.32rem;
+    border-radius: 2px;
+    background: var(--surface-h);
+    opacity: 0.75;
+    border: 1px solid var(--border);
+  }
+  :global(.detail-tags span.tool) {
+    opacity: 0.35;
+  }
+
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: rgba(0, 0, 0, 0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .lightbox[hidden] {
+    display: none !important;
+  }
+  .lightbox img {
+    max-width: min(90vw, 860px);
+    max-height: 85vh;
+    border-radius: 4px;
+    object-fit: contain;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  .lb-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    cursor: pointer;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    transition: background 0.15s;
+  }
+  .lb-close:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+  .lb-close svg {
+    width: 100%;
+    height: 100%;
+  }
+</style>
