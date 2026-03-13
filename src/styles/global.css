@@ -44,17 +44,20 @@ body.light {
   color: #0C0A09;
   --bg:            #FAFAFA;
   --fg:            #0C0A09;
-  --border:        rgba(0,0,0,0.1);
-  --border-h:      rgba(0,0,0,0.2);
-  --surface:       rgba(0,0,0,0.02);
-  --surface-h:     rgba(0,0,0,0.05);
-  --modal-bg:      #f9f9f9;
-  --icon-bg:       #e2e2e2;
-  --icon-more-bg:  #d0d0d0;
+  --border:        rgba(0,0,0,0.07);
+  --border-h:      rgba(0,0,0,0.14);
+  --surface:       rgba(0,0,0,0.01);
+  --surface-h:     rgba(0,0,0,0.025);
+  --modal-bg:      #f5f5f5;
+  --icon-bg:       #ebebeb;
+  --icon-more-bg:  #e0e0e0;
   --icon-border:   #FAFAFA;
   --accent:        #0050D8;
-  --accent-dim:    rgba(0,80,216,0.08);
-  --accent-border: rgba(0,80,216,0.22);
+  --accent-dim:    rgba(0,80,216,0.07);
+  --accent-border: rgba(0,80,216,0.18);
+  --lime:          #6abf4b;
+  --lime-dim:      rgba(106,191,75,0.1);
+  --lime-border:   rgba(106,191,75,0.22);
 }
 
 [hidden] { display: none !important; }
