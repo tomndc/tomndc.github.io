@@ -1,24 +1,64 @@
 # Personal portfolio
 
-This repository contains the source code for my personal website, built with Astro and Javascript.
+Personal portfolio. Built with Astro and JavaScript.
 
-## 📁 Project Structure
+## Project structure
 
-### Directories
+```
+src/
+├── components/
+│   ├── BioComponent.astro   — avatar + name/subtitle with 4-state crossfade
+│   ├── FeaturedRow.astro    — single row in the featured works display
+│   ├── ProjectCard.astro    — card used in filtered search results
+│   ├── SearchBar.astro      — search input with chip filters and inline hint
+│   └── SkillsGrid.astro     — skills heatmap grid (working / learning / etc)
+├── layouts/
+│   └── Layout.astro         — navbar, footer, theme switch, SPA shell
+├── lib/data/
+│   ├── about-data.json      — name, bio, role, avatar
+│   ├── experience-data.json — jobs and milestones for the timeline
+│   ├── projects-data.json   — projects with metadata, tags and images
+│   ├── search-data.json     — search bar state titles and thresholds
+│   ├── skills-data.json     — skills with category and proficiency level
+│   └── socials-data.json    — github, linkedin, behance urls
+├── pages/
+│   └── index.astro          — page entry point
+├── sections/
+│   ├── ExperienceSection.astro  — career timeline with year axis
+│   └── WorkSection.astro        — bio, search, 3-panel display box
+└── styles/
+    └── global.css           — CSS variables, layout, theme (dark / light)
 
-- **`/src`** - The core directory containing all source code for the application, including components, utilites, etc...
-  - **`/layouts`** - Contains layout components used to define the overall structure and appearance of the application.
-    - **`/components`** - A collection of reusable UI components.
-    - **`/sections`** - Contains individual sections used in the main index of the website.
-    - **`/styles`** - Stores global and component-specific stylesheets.
-      - **`/sections`** - Stores stylesheets for individual sections.
-  - **`/lib`** - Provides utility functions, data management, and localization capabilities to the application.
-    - **`/locales`** - Contains localization files for handling multi-language support.
-    - **`/data`** - Manages structured data related to projects, personal information, and other relevant content.
-- **`/pages`** - Defines the various application routes and their corresponding content.
-- **`/public`** - The public directory containing static assets accessible directly via URL.
+public/
+├── scripts/
+│   ├── search.js            — filter logic, panel switching, lightbox
+│   └── spa.js               — tab navigation between work / experience
+├── theme.js                 — 3-state theme toggle (system / light / dark)
+├── avatar.jpg
+└── favicon.png
+```
 
-## TO-DO
+## Getting started
 
-- [] Add stack section
-- [] Add some micro interactions
+```bash
+npm install
+npm run dev
+```
+
+## Customization
+
+All content is driven by the JSON files in `src/lib/data/`. No code changes needed for most edits.
+
+| File                   | What to edit                                    |
+| ---------------------- | ----------------------------------------------- |
+| `about-data.json`      | Name, bio, role, avatar path                    |
+| `projects-data.json`   | Projects, tags, links, images                   |
+| `experience-data.json` | Jobs and career milestones                      |
+| `search-data.json`     | Search bar placeholder states and tag threshold |
+| `socials-data.json`    | Social links in the footer                      |
+
+## Built with
+
+- [Astro](https://astro.build)
+- Vanilla JavaScript
+- CSS custom properties
