@@ -27,7 +27,7 @@
   const $pRes    = document.getElementById("panel-results");
   const $pDet    = document.getElementById("panel-detail");
   const $detCont = document.getElementById("detail-content");
-  const $back    = document.getElementById("detail-back");
+  let $back = document.getElementById("detail-back");
   const $lbBox   = document.getElementById("img-lightbox");
   const $lbImg   = document.getElementById("lb-img");
   const $lbClose = document.getElementById("lb-close");
@@ -106,6 +106,12 @@
             ${p.type ? `<span class="detail-type">${p.type}</span>` : ""}
           </div>
         </div>
+        <button class="detail-back-btn" id="detail-back" aria-label="Back">
+          <svg viewBox="0 0 14 14" fill="none" width="10" height="10">
+            <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          back
+        </button>
       </div>
       ${linksHtml}
       <p class="detail-desc">${p.description}</p>
@@ -119,7 +125,9 @@
     showPanel("detail");
   }
 
-  $back.addEventListener("click", () => {
+  document.addEventListener("click", e => {
+    if (!e.target.closest("#detail-back")) return;
+    $back = document.getElementById("detail-back");
     fromFeaturedMode = false;
 
     if (prevPanel === "featured") {
