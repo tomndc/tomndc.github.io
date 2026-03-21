@@ -21,6 +21,19 @@
         stroke-linecap="round"></path>
     </svg>
 
+    <div class="work-chip" id="work-chip" hidden>
+      <span class="wc-label">/work</span>
+      <button class="wc-x" id="work-chip-x" aria-label="Clear" type="button">
+        <svg viewBox="0 0 10 10" fill="none" width="7" height="7">
+          <path
+            d="M8 2L2 8M2 2l6 6"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+
     <div class="inline-hint" id="inline-hint" aria-hidden="true">
       <span class="ih-eg">Search by type or tech</span>
       <span class="ih-dot">—</span>
@@ -78,6 +91,53 @@
 <style>
   .search-bar {
     position: relative;
+  }
+
+  .work-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.12rem 0.14rem 0.12rem 0.42rem;
+    border-radius: 3px;
+    border: 1px solid var(--border-h);
+    background: color-mix(in srgb, currentColor 7%, transparent);
+    font-size: 0.62rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+    align-self: center;
+    position: relative;
+    z-index: 2;
+    color: inherit;
+  }
+
+  .work-chip[hidden] {
+    display: none !important;
+  }
+
+  .wc-label {
+    line-height: 1;
+    opacity: 0.7;
+  }
+
+  .wc-x {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    color: inherit;
+    padding: 0;
+    opacity: 0.35;
+    transition: opacity 0.12s;
+    flex-shrink: 0;
+  }
+  .wc-x:hover {
+    opacity: 0.8;
   }
 
   .input-shell {
@@ -159,7 +219,8 @@
 
   .input-shell:focus-within .inline-hint,
   .input-shell.has-chips .inline-hint,
-  .input-shell.has-value .inline-hint {
+  .input-shell.has-value .inline-hint,
+  .input-shell.has-work .inline-hint {
     opacity: 0;
   }
 

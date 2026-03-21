@@ -1,0 +1,189 @@
+---
+import stackData from "../lib/data/stack-data.json";
+
+const { stack, learning } = stackData as any;
+---
+
+<section class="stack-section" id="section-stack">
+  <div class="dir-scroll">
+    <div class="sg" data-cat="learning">
+      <span class="sg-label">/learning</span>
+      <div class="sg-items">
+        {
+          learning.map((item: any) => (
+            <div class="sg-item">
+              <span class="sg-dot" />
+              <span class="sg-name">{item.name}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    {
+      stack.map((col: any) => (
+        <div class="sg" data-cat={col.category}>
+          <span class="sg-label">/{col.category}</span>
+          <div class="sg-items">
+            {col.items.map((item: any) => (
+              <div class="sg-item">
+                <span class="sg-icon">
+                  {item.icon ? (
+                    <img
+                      src={`https://cdn.simpleicons.org/${item.icon}`}
+                      alt=""
+                      width="10"
+                      height="10"
+                      onerror="this.style.display='none'"
+                    />
+                  ) : (
+                    <span class="sg-dot" />
+                  )}
+                </span>
+                <span class="sg-name">{item.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .stack-section {
+    flex: 1;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-bottom: 0.55rem;
+  }
+
+  :global(body[data-bio-state="searching"]) #section-stack,
+  :global(body[data-bio-state="many-tags"]) #section-stack,
+  :global(body[data-bio-state="featured"]) #section-stack,
+  :global(body[data-bio-state="work-only"]) #section-stack,
+  :global(body.detail) #section-stack,
+  :global(body.feat-expanded) #section-stack {
+    display: none;
+  }
+
+  .dir-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--surface);
+    margin-top: 0.5rem;
+    padding: 0.75rem 0.75rem 0.75rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .dir-scroll::-webkit-scrollbar {
+    width: 3px;
+  }
+  .dir-scroll::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+  }
+
+  .sg {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 0.6rem;
+    align-items: start;
+  }
+
+  .sg-label {
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    opacity: 0.28;
+    text-align: left;
+    padding-top: 0.1rem;
+    white-space: nowrap;
+  }
+
+  [data-cat="learning"] .sg-label {
+    color: var(--accent);
+    opacity: 0.75;
+  }
+  [data-cat="languages"] .sg-label {
+    color: var(--accent);
+    opacity: 0.55;
+  }
+  [data-cat="frameworks"] .sg-label {
+    color: var(--lime);
+    opacity: 0.75;
+  }
+
+  .sg-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.22rem 0.65rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sg-item {
+    display: flex;
+    align-items: center;
+    gap: 0.32rem;
+    cursor: default;
+    padding: 0.08rem 0;
+  }
+
+  .sg-icon {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0.55;
+  }
+  .sg-icon img {
+    display: block;
+    width: 12px;
+    height: 12px;
+  }
+
+  .sg-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.3;
+    flex-shrink: 0;
+  }
+
+  [data-cat="learning"] .sg-dot {
+    color: var(--accent);
+    opacity: 0.5;
+  }
+
+  .sg-name {
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    opacity: 0.45;
+    white-space: nowrap;
+    transition: opacity 0.12s;
+  }
+
+  .sg-item:hover .sg-name {
+    opacity: 0.9;
+  }
+  .sg-item:hover .sg-icon {
+    opacity: 0.9;
+  }
+  .sg-item:hover .sg-dot {
+    opacity: 0.8;
+  }
+</style>

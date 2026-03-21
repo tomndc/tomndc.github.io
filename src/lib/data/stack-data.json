@@ -1,0 +1,48 @@
+{
+  "stack": [
+    {
+      "category": "languages",
+      "items": [
+        { "name": "JavaScript", "icon": "javascript" },
+        { "name": "TypeScript", "icon": "typescript" },
+        { "name": "Python",     "icon": "python" }
+      ]
+    },
+    {
+      "category": "frameworks",
+      "items": [
+        { "name": "ExpressJS",  "icon": "express" },
+        { "name": "Astro",      "icon": "astro" }
+      ]
+    },
+    {
+      "category": "databases",
+      "items": [
+        { "name": "PostgreSQL", "icon": "postgresql" },
+        { "name": "MongoDB",    "icon": "mongodb" },
+        { "name": "MySQL",      "icon": "mysql" }
+      ]
+    },
+    {
+      "category": "infra",
+      "items": [
+        { "name": "Linux",              "icon": "linux" },
+        { "name": "Google Apps Script", "icon": "google" }
+      ]
+    },
+    {
+      "category": "tools",
+      "items": [
+        { "name": "Git",         "icon": "git" },
+        { "name": "Postman",     "icon": "postman" },
+        { "name": "Photoshop",   "icon": "adobephotoshop" },
+        { "name": "Illustrator", "icon": "adobeillustrator" },
+        { "name": "Premiere",    "icon": "adobepremierepro" }
+      ]
+    }
+  ],
+  "learning": [
+    { "name": "Bash",   "icon": "gnubash" },
+    { "name": "Docker", "icon": "docker" }
+  ]
+}

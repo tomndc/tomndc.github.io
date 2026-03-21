@@ -1,0 +1,239 @@
+---
+import stack from "../lib/data/stack-data.json";
+---
+
+<section class="stack-section" id="section-stack">
+  <div class="stack-inner">
+    <div class="stack-header">
+      <span class="stack-title">stack</span>
+      <div class="stack-legend">
+        {
+          (stack as any[]).map((g: any) => (
+            <span class="legend-item" data-cat={g.category}>
+              <span class="legend-dot" />
+              {g.label}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="groups">
+      {
+        (stack as any[]).map((group: any) => (
+          <div class="group" data-cat={group.category}>
+            <span class="group-label">
+              <span class="group-dot" />
+              {group.label}
+            </span>
+            <div class="chips">
+              {group.items.map((item: any) => (
+                <div class="chip">
+                  {item.icon ? (
+                    <img
+                      class="chip-icon"
+                      src={`https://cdn.simpleicons.org/${item.icon}`}
+                      alt=""
+                      width="11"
+                      height="11"
+                      onerror="this.style.display='none'"
+                    />
+                  ) : (
+                    <span class="chip-dot" />
+                  )}
+                  <span class="chip-name">{item.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .stack-section {
+    flex: 1;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-bottom: 0.55rem;
+  }
+
+  :global(body[data-bio-state="searching"]) #section-stack,
+  :global(body[data-bio-state="many-tags"]) #section-stack,
+  :global(body[data-bio-state="featured"]) #section-stack,
+  :global(body[data-bio-state="work-only"]) #section-stack,
+  :global(body.detail) #section-stack,
+  :global(body.feat-expanded) #section-stack {
+    display: none;
+  }
+
+  .stack-inner {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--surface);
+    margin-top: 0.5rem;
+    padding: 0.65rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .stack-inner::-webkit-scrollbar {
+    width: 3px;
+  }
+  .stack-inner::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+  }
+
+  .stack-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .stack-title {
+    font-size: 0.6rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.22;
+  }
+
+  .stack-legend {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.22rem;
+    font-size: 0.57rem;
+    font-family: var(--font-mono);
+    opacity: 0.35;
+  }
+
+  .legend-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .groups {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .group-label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.57rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.28;
+  }
+
+  .group-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    padding: 0.18rem 0.42rem;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    background: var(--surface-h);
+    cursor: default;
+    transition:
+      border-color 0.13s,
+      background 0.13s;
+  }
+
+  .chip-icon {
+    opacity: 0.6;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .chip-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0.4;
+  }
+
+  .chip-name {
+    font-size: 0.64rem;
+    font-family: var(--font-mono);
+    opacity: 0.55;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  [data-cat="learning"] .legend-dot,
+  [data-cat="learning"] .group-dot,
+  [data-cat="learning"] .chip-dot {
+    background: var(--accent);
+  }
+
+  [data-cat="technologies"] .legend-dot,
+  [data-cat="technologies"] .group-dot,
+  [data-cat="technologies"] .chip-dot {
+    background: var(--lime);
+  }
+
+  [data-cat="tools"] .legend-dot,
+  [data-cat="tools"] .group-dot,
+  [data-cat="tools"] .chip-dot {
+    background: var(--border-h);
+  }
+
+  .chip:hover {
+    border-color: var(--border-h);
+    background: var(--surface-h);
+  }
+
+  [data-cat="learning"] .chip:hover {
+    border-color: var(--accent-border);
+    background: var(--accent-dim);
+  }
+  [data-cat="technologies"] .chip:hover {
+    border-color: var(--lime-border);
+    background: var(--lime-dim);
+  }
+</style>

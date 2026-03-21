@@ -21,6 +21,7 @@
   const $shell   = document.getElementById("input-shell");
   const $sugs    = document.getElementById("ps-sugs");
   const $chips   = document.getElementById("chips-row");
+  const $workChip = document.getElementById("work-chip");
   const $meta    = document.getElementById("ps-meta");
   const $grid    = document.getElementById("ps-grid");
   const $pFeat   = document.getElementById("panel-featured");
@@ -40,6 +41,7 @@
   let activePanel = "featured";
   let prevPanel   = "featured";
   let fromFeaturedMode = false;
+  let workChipActive = false;
 
   function setBioState(state) {
     document.body.dataset.bioState = state;
@@ -47,15 +49,27 @@
   }
 
   function computeBioState() {
-    if (fromFeaturedMode)         return "featured";
+    if (fromFeaturedMode)             return "featured";
     if (filters.length >= TAGS_LIMIT) return "many-tags";
     if (filters.length > 0 || query.length > 0) return "searching";
+    if (workChipActive)               return "work-only";
     return "default";
   }
 
   function syncState() {
-    setBioState(computeBioState());
+    const state = computeBioState();
+    setBioState(state);
     document.body.classList.toggle("detail", activePanel === "detail");
+    if (activePanel !== "featured" || filters.length || query) {
+      document.body.classList.remove("feat-expanded");
+    }
+
+  }
+
+  function renderWorkChip(visible) {
+    if (!$workChip) return;
+    $workChip.hidden = !visible;
+    $shell.classList.toggle("has-work", visible);
   }
 
   function showPanel(which) {
@@ -74,6 +88,7 @@
 
     if (fromFeatured) {
       fromFeaturedMode = true;
+      if (!workChipActive) { workChipActive = true; renderWorkChip(true); }
     }
 
     const techs = Array.isArray(p.technologies) ? p.technologies : p.technologies.split(",").map(t => t.trim());
@@ -265,6 +280,7 @@
   function addFilter(label, kind) {
     if (filters.some(f => f.label.toLowerCase() === label.toLowerCase())) return;
     fromFeaturedMode = false;
+    if (!workChipActive) { workChipActive = true; renderWorkChip(true); }
     filters.push({ label, kind });
     syncClear(); renderChips(); applyFilters(); updateShellClasses(); syncState();
   }
@@ -327,6 +343,8 @@
 
   function clearAll() {
     fromFeaturedMode = false;
+    workChipActive = false;
+    renderWorkChip(false);
     filters = []; query = ""; $input.value = "";
     prevPanel = "featured";
     syncClear(); renderChips(); closeSugs(); updateShellClasses();
@@ -361,8 +379,22 @@
       else clearAll();
     } else if (e.key === "Backspace" && !$input.value && filters.length) {
       removeFilter(filters[filters.length - 1].label);
+    } else if (e.key === "Backspace" && !$input.value && !filters.length && workChipActive) {
+      clearAll();
     }
   });
+
+  const $workChipX = document.getElementById("work-chip-x");
+  if ($workChipX) {
+    $workChipX.addEventListener("click", () => clearAll());
+  }
+
+  const $featBtn = document.getElementById("feat-expand-btn");
+  if ($featBtn) {
+    $featBtn.addEventListener("click", () => {
+      document.body.classList.toggle("feat-expanded");
+    });
+  }
 
   $input.addEventListener("focus", () => { if (query) renderSugs(buildSugs(query)); });
   $clear.addEventListener("click", clearAll);

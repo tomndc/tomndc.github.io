@@ -7,7 +7,10 @@
       const target = tab.dataset.section;
 
       sections.forEach((s) => {
-        s.hidden = s.id !== `section-${target}`;
+        s.hidden = s.id !== `section-${target}` && s.id !== "section-stack";
+        if (s.id === "section-stack") {
+          s.hidden = target !== "work";
+        }
       });
 
       tabs.forEach((t) => t.classList.toggle("is-active", t === tab));

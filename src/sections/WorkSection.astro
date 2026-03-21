@@ -101,7 +101,22 @@ const allTypes: string[] = [
 
     <div class="display-box" id="display-box">
       <div id="panel-featured" class="panel">
-        <p class="panel-label">Featured work ({featured.length})</p>
+        <div class="panel-label-row">
+          <p class="panel-label">Featured work ({featured.length})</p>
+          <button
+            class="feat-expand-btn"
+            id="feat-expand-btn"
+            aria-label="Expand featured works"
+          >
+            <svg viewBox="0 0 14 14" fill="none" width="11" height="11">
+              <path
+                d="M2 5h10M2 9h10"
+                stroke="currentColor"
+                stroke-width="1.3"
+                stroke-linecap="round"></path>
+            </svg>
+          </button>
+        </div>
         <div class="fi-list">
           {featured.map((p: any) => <FeaturedRow item={p} />)}
         </div>
@@ -152,12 +167,15 @@ const allTypes: string[] = [
 
 <style>
   .work-section {
-    flex: 1;
-    min-height: 0;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     padding-top: 12px;
-    overflow: hidden;
+  }
+  :global(body.feat-expanded) .work-section {
+    flex: 1;
+    min-height: 0;
+    flex-shrink: unset;
   }
 
   .bio-area {
@@ -191,10 +209,12 @@ const allTypes: string[] = [
     display: flex;
     flex-direction: column;
     padding-top: 0.85rem;
-    padding-bottom: 0.55rem;
+  }
+  :global(body.feat-expanded) .ps-area {
     flex: 1;
     min-height: 0;
     overflow: hidden;
+    padding-bottom: 0.55rem;
   }
 
   .display-box {
@@ -202,12 +222,18 @@ const allTypes: string[] = [
     border-radius: 3px;
     background: var(--surface);
     margin-top: 0.5rem;
-    flex: 0 1 auto;
-    min-height: 0;
-    max-height: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+  }
+  :global(body.feat-expanded) .display-box {
+    flex: 1;
+    min-height: 0;
+  }
+  :global(body.feat-expanded) #panel-featured {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
   }
 
   .panel {
@@ -235,9 +261,74 @@ const allTypes: string[] = [
     opacity: 0.35;
     margin: 0 0 0.5rem;
   }
+  .panel-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  .panel-label-row .panel-label {
+    margin-bottom: 0;
+  }
+
+  .feat-expand-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 24px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.4;
+    padding: 0;
+    transition:
+      opacity 0.15s,
+      background 0.15s,
+      border-color 0.15s;
+    flex-shrink: 0;
+  }
+  .feat-expand-btn:hover {
+    opacity: 0.8;
+    background: var(--surface-h);
+    border-color: var(--border-h);
+  }
+  :global(body.feat-expanded) .feat-expand-btn {
+    opacity: 0.8;
+    background: var(--surface-h);
+    border-color: var(--border-h);
+  }
+  :global(body.feat-expanded) .about-collapsible {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  :global(body.feat-expanded) .bio-area {
+    gap: 0;
+  }
+  :global(body.feat-expanded) #section-stack {
+    display: none !important;
+  }
+
   .fi-list {
     display: flex;
     flex-direction: column;
+  }
+
+  #panel-featured {
+    max-height: calc(3 * 44px + 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  #panel-featured::-webkit-scrollbar {
+    width: 3px;
+  }
+  #panel-featured::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
   }
   .grid {
     display: flex;
