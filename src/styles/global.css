@@ -99,3 +99,11 @@ body[data-bio-state="work-only"] .about-collapsible {
   body { font-size: 12px; }
   main { padding: 0 0.5rem; }
 }
+
+#display-box {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-h) transparent;
+}
+#display-box::-webkit-scrollbar       { width: 3px; }
+#display-box::-webkit-scrollbar-thumb { background: var(--border-h); border-radius: 4px; }

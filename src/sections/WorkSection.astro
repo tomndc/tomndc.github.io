@@ -96,7 +96,7 @@ const allTypes: string[] = [
     </div>
   </div>
 
-  <div class="ps-area">
+  <div class="ps-area" id="ps-area">
     <SearchBar />
 
     <div class="display-box" id="display-box">
@@ -172,11 +172,6 @@ const allTypes: string[] = [
     flex-direction: column;
     padding-top: 12px;
   }
-  :global(body.feat-expanded) .work-section {
-    flex: 1;
-    min-height: 0;
-    flex-shrink: unset;
-  }
 
   .bio-area {
     display: flex;
@@ -210,6 +205,7 @@ const allTypes: string[] = [
     flex-direction: column;
     padding-top: 0.85rem;
   }
+
   :global(body.feat-expanded) .ps-area {
     flex: 1;
     min-height: 0;
@@ -223,9 +219,8 @@ const allTypes: string[] = [
     background: var(--surface);
     margin-top: 0.5rem;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
   }
+
   :global(body.feat-expanded) .display-box {
     flex: 1;
     min-height: 0;
@@ -242,6 +237,7 @@ const allTypes: string[] = [
     overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
+    box-sizing: border-box;
   }
   .panel::-webkit-scrollbar {
     width: 3px;

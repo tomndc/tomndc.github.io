@@ -211,6 +211,7 @@
       if (seen.has(k) || active.has(k)) return;
       seen.add(k); out.push({ label, kind });
     };
+    if (!workChipActive && swMatch("/work", q)) out.push({ label: "/work", kind: "section" });
     allTechnologies.forEach(t => { if (swMatch(t, q)) push(t, "tech"); });
     allTypes.forEach(t => { if (t && swMatch(t, q)) push(t, "type"); });
     return out.slice(0, 9);
@@ -223,7 +224,8 @@
       `<li class="sug-item ${s.kind}-item" role="option" id="sug-${i}"
            aria-selected="false" data-label="${s.label}" data-kind="${s.kind}" tabindex="0">
         ${s.kind === "tech" ? techIcon(s.label) : ""}
-        <span>${s.label}</span>
+        <span class="sug-main">${s.label}</span>
+        ${s.kind === "section" ? `<span style="font-size:0.6rem;font-family:'IBM Plex Mono',monospace;font-style:italic;color:#6abf4b;opacity:0.75;margin-left:auto;white-space:nowrap;">// section tag</span>` : ""}
       </li>`
     ).join("");
     $sugs.hidden = false;
@@ -261,6 +263,13 @@
 
   function pickLi(li) {
     $input.value = ""; query = "";
+    if (li.dataset.kind === "section" && li.dataset.label === "/work") {
+      closeSugs();
+      if (!workChipActive) { workChipActive = true; renderWorkChip(true); }
+      syncState();
+      $input.focus();
+      return;
+    }
     addFilter(li.dataset.label, li.dataset.kind);
     closeSugs(); $input.focus();
   }

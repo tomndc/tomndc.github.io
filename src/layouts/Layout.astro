@@ -6,11 +6,11 @@ import socials from "../lib/data/socials-data.json";
 <!doctype html>
 <html lang="en">
   <head>
-    <script src="/theme.js" is:inline></script>
     <title>/tomndc</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <script src="/theme.js" is:inline defer></script>
   </head>
 
   <body>
@@ -113,21 +113,8 @@ import socials from "../lib/data/socials-data.json";
         setInterval(fmt, 30000);
       })();
     </script>
-    <script is:inline>
-      (function () {
-        var saved = localStorage.getItem("theme");
-        var state = saved || "system";
-        if (
-          state === "dark" ||
-          (state === "system" &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches)
-        ) {
-          // dark is the default, nothing to add
-        } else {
-          document.documentElement.classList.add("light-early");
-        }
-      })();
-    </script>
+    <script is:inline src="/scripts/layout.js" defer></script>
+    <script is:inline src="/scripts/spa.js" defer></script>
   </body>
 </html>
 
