@@ -111,7 +111,6 @@ const all = [{ category: "learning", items: learning }, ...stack];
   }
 
   .sg-icon-folder {
-    opacity: 0.3;
     flex-shrink: 0;
   }
 
@@ -119,7 +118,6 @@ const all = [{ category: "learning", items: learning }, ...stack];
     font-size: 0.65rem;
     font-family: var(--font-mono);
     font-weight: 400;
-    opacity: 0.4;
     white-space: nowrap;
   }
 
@@ -144,7 +142,6 @@ const all = [{ category: "learning", items: learning }, ...stack];
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    opacity: 0.55;
   }
   .sg-icon img {
     display: block;
@@ -157,22 +154,12 @@ const all = [{ category: "learning", items: learning }, ...stack];
     height: 4px;
     border-radius: 50%;
     background: currentColor;
-    opacity: 0.25;
     flex-shrink: 0;
   }
 
   .sg-name {
     font-size: 0.7rem;
     font-family: var(--font-mono);
-    opacity: 0.45;
     white-space: nowrap;
-    transition: opacity 0.12s;
-  }
-
-  .sg-item:hover .sg-name {
-    opacity: 0.85;
-  }
-  .sg-item:hover .sg-icon {
-    opacity: 0.9;
   }
 </style>
