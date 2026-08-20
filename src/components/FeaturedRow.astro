@@ -1,4 +1,6 @@
 ---
+import { iconUrlFor } from "../lib/icons";
+
 interface Props {
   item: {
     name: string;
@@ -6,93 +8,73 @@ interface Props {
     description: string;
     technologies: string[] | string;
   };
+  href?: string;
 }
 
-const { item } = Astro.props;
+const { item, href } = Astro.props;
+const Tag = href ? "a" : "button";
 
 const techs: string[] = Array.isArray(item.technologies)
   ? item.technologies
   : item.technologies.split(",").map((t) => t.trim());
-
-const iconSlug: Record<string, string> = {
-  javascript: "javascript",
-  typescript: "typescript",
-  nodejs: "nodedotjs",
-  expressjs: "express",
-  python: "python",
-  php: "php",
-  laravel: "laravel",
-  wordpress: "wordpress",
-  postgresql: "postgresql",
-  prisma: "prisma",
-  mongoose: "mongoose",
-  vite: "vite",
-  websockets: "socketdotio",
-  "socket.io": "socketdotio",
-  swagger: "swagger",
-  "google api": "google",
-};
 ---
 
-<button class="fi-row" data-project-btn data-project-id={item.name}>
-  <div class="fi-main">
-    <div class="fi-thumb">
-      {
-        (item as any).thumbnail ? (
-          <img src={(item as any).thumbnail} alt="" class="fi-thumb-img" />
-        ) : (
-          <span class="fi-thumb-letter">
-            {item.name.charAt(0).toUpperCase()}
-          </span>
-        )
-      }
-    </div>
-    <span class="fi-name">{item.name}</span>
-    <span class="fi-sep">/</span>
-    {item.type && <span class="fi-type">{item.type}</span>}
-    <span class="fi-sep">/</span>
-    <span class="fi-desc">{item.description}</span>
-  </div>
-
-  <div class="fi-icons" aria-label="Technologies">
+<Tag
+  class="fi-row"
+  href={href}
+  data-project-btn={href ? undefined : true}
+  data-project-id={item.name}
+>
+  <div class="fi-thumb">
     {
-      techs.length > 3 && (
-        <div class="fi-icon-wrap fi-icon-more">+{techs.length - 3}</div>
+      (item as any).thumbnail ? (
+        <img src={(item as any).thumbnail} alt="" class="fi-thumb-img" />
+      ) : (
+        <span class="fi-thumb-letter">
+          {item.name.charAt(0).toUpperCase()}
+        </span>
       )
     }
-    {
-      techs
-        .slice(0, 3)
-        .reverse()
-        .map((tech) => {
-          const slug = iconSlug[tech.toLowerCase()];
-          return slug ? (
-            <div class="fi-icon-wrap" title={tech}>
-              <img
-                src={`https://cdn.simpleicons.org/${slug}`}
-                alt={tech}
-                width="11"
-                height="11"
-                class="fi-icon"
-                onerror="this.style.display='none'"
-              />
-            </div>
-          ) : (
-            <div class="fi-icon-wrap fi-fallback" title={tech}>
-              {tech.charAt(0)}
-            </div>
-          );
-        })
-    }
   </div>
-</button>
+
+  <div class="fi-text">
+    <span class="fi-name">{item.name}</span>
+    <div class="fi-bottom-row">
+      <span class="fi-desc">{item.description}</span>
+      <div class="fi-icons" aria-label="Technologies">
+        {
+          techs
+            .slice(0, 4)
+            .map((tech) => {
+              const url = iconUrlFor(tech);
+              return url ? (
+                <span
+                  class="icon-mask fi-icon"
+                  title={tech}
+                  style={`-webkit-mask-image:url(${url});mask-image:url(${url});`}
+                />
+              ) : (
+                <span class="fi-fallback" title={tech}>
+                  {tech.charAt(0)}
+                </span>
+              );
+            })
+        }
+        {
+          techs.length > 4 && (
+            <span class="fi-icon-more">+{techs.length - 4}</span>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</Tag>
 
 <style>
   .fi-row {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    align-items: stretch;
+    gap: 0.55rem;
     padding: 0.52rem 0;
     border-bottom: 1px solid var(--border);
     background: none;
@@ -100,6 +82,7 @@ const iconSlug: Record<string, string> = {
     border-right: none;
     border-top: none;
     text-align: left;
+    text-decoration: none;
     color: inherit;
     font: inherit;
     width: 100%;
@@ -113,19 +96,10 @@ const iconSlug: Record<string, string> = {
     opacity: 0.6;
   }
 
-  .fi-main {
-    display: flex;
-    align-items: center;
-    gap: 0.38rem;
-    min-width: 0;
-    overflow: hidden;
-    flex: 1;
-  }
-
   .fi-thumb {
-    width: 18px;
-    height: 18px;
-    border-radius: 3px;
+    width: 34px;
+    height: 34px;
+    border-radius: 4px;
     border: 1px solid var(--border);
     background: var(--surface-h);
     display: flex;
@@ -140,72 +114,66 @@ const iconSlug: Record<string, string> = {
     object-fit: cover;
   }
   .fi-thumb-letter {
-    font-size: 0.48rem;
+    font-size: 0.85rem;
     font-weight: 700;
     opacity: 0.45;
   }
 
+  .fi-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.15rem;
+    min-width: 0;
+    flex: 1;
+  }
+
   .fi-name {
-    font-size: 0.82rem;
+    font-size: 0.9rem;
     font-weight: 500;
     white-space: nowrap;
-    flex-shrink: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .fi-sep {
-    font-size: 0.75rem;
-    opacity: 0.2;
-    flex-shrink: 0;
+
+  .fi-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    min-width: 0;
   }
-  .fi-type {
-    font-size: 0.75rem;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
+
   .fi-desc {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
+    opacity: 0.55;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     min-width: 0;
+    flex: 1;
   }
 
   .fi-icons {
     display: flex;
     align-items: center;
+    gap: 0.4rem;
     flex-shrink: 0;
-    flex-direction: row-reverse;
-  }
-  .fi-icon-wrap {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 1px solid var(--icon-border);
-    background: var(--icon-bg);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-left: -6px;
-    flex-shrink: 0;
-  }
-  .fi-icons .fi-icon-wrap:last-child {
-    margin-left: 0;
-  }
-  .fi-icon-more {
-    font-size: 0.48rem;
-    font-weight: 600;
-    background: var(--icon-more-bg);
-    letter-spacing: -0.02em;
-    opacity: 0.7;
   }
   .fi-icon {
-    width: 11px;
-    height: 11px;
-    object-fit: contain;
+    width: 12px;
+    height: 12px;
+    opacity: 0.6;
+  }
+  .fi-icon-more {
+    font-size: 0.55rem;
+    font-weight: 600;
+    opacity: 0.35;
+    letter-spacing: -0.02em;
   }
   .fi-fallback {
-    font-size: 0.48rem;
+    font-size: 0.55rem;
     font-weight: 700;
-    opacity: 0.5;
+    opacity: 0.4;
   }
 </style>

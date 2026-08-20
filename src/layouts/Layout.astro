@@ -1,6 +1,13 @@
 ---
 import "../styles/global.css";
 import socials from "../lib/data/socials-data.json";
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+  active?: "about" | "work";
+}
+
+const { active = "about" } = Astro.props;
 ---
 
 <!doctype html>
@@ -10,18 +17,25 @@ import socials from "../lib/data/socials-data.json";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <script src="/theme.js" is:inline defer></script>
+    <script src="/theme.js" is:inline defer data-astro-rerun></script>
+    <ClientRouter />
   </head>
 
   <body>
-    <nav class="navbar">
-      <span class="nav-brand">/tomndc</span>
+    <nav class="navbar" transition:animate="none">
+      <a href="/" class="nav-brand">/tomndc</a>
       <div class="nav-tabs" role="tablist">
-        <button class="nav-tab is-active" data-section="work" role="tab"
-          >work</button
+        <a
+          href="/"
+          class={`nav-tab${active === "about" ? " is-active" : ""}`}
+          role="tab"
+          aria-selected={active === "about"}>about</a
         >
-        <button class="nav-tab" data-section="experience" role="tab"
-          >experience</button
+        <a
+          href="/work/"
+          class={`nav-tab${active === "work" ? " is-active" : ""}`}
+          role="tab"
+          aria-selected={active === "work"}>work</a
         >
       </div>
       <div id="theme-toggle" class="theme-switch" title="Toggle theme">
@@ -70,9 +84,9 @@ import socials from "../lib/data/socials-data.json";
       </div>
     </nav>
 
-    <main><slot /></main>
+    <main transition:animate="fade"><slot /></main>
 
-    <footer class="footer">
+    <footer class="footer" transition:animate="none">
       <span class="footer-left">
         Made with <a
           href="https://astro.build"
@@ -92,14 +106,10 @@ import socials from "../lib/data/socials-data.json";
         <a href={socials.linkedinUrl} target="_blank" rel="noopener noreferrer"
           >linkedin</a
         >
-        <span class="sep">·</span>
-        <a href={socials.behanceUrl} target="_blank" rel="noopener noreferrer"
-          >behance</a
-        >
       </span>
     </footer>
 
-    <script is:inline>
+    <script is:inline data-astro-rerun>
       (function () {
         var el = document.getElementById("footer-time");
         if (!el) return;
@@ -113,8 +123,30 @@ import socials from "../lib/data/socials-data.json";
         setInterval(fmt, 30000);
       })();
     </script>
-    <script is:inline src="/scripts/layout.js" defer></script>
-    <script is:inline src="/scripts/spa.js" defer></script>
+    <script is:inline src="/scripts/layout.js" defer data-astro-rerun></script>
+    <script is:inline data-astro-rerun>
+      (function () {
+        function sizeThumbs() {
+          document.querySelectorAll(".fi-row").forEach(function (row) {
+            var thumb = row.querySelector(".fi-thumb");
+            var text = row.querySelector(".fi-text");
+            if (!thumb || !text) return;
+            var h = text.offsetHeight;
+            if (h > 0) {
+              thumb.style.width = h + "px";
+              thumb.style.height = h + "px";
+            }
+          });
+        }
+        window.__sizeThumbs = sizeThumbs;
+        requestAnimationFrame(function () {
+          setTimeout(sizeThumbs, 30);
+        });
+        window.addEventListener("load", sizeThumbs);
+        window.addEventListener("resize", sizeThumbs);
+        document.addEventListener("layout:resized", sizeThumbs);
+      })();
+    </script>
   </body>
 </html>
 
@@ -133,10 +165,20 @@ import socials from "../lib/data/socials-data.json";
   .nav-brand {
     font-size: 0.72rem;
     font-weight: 500;
-    opacity: 0.4;
+    opacity: 0.55;
     flex-shrink: 0;
     font-family: var(--font-mono);
     letter-spacing: -0.02em;
+    color: inherit;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    transition: opacity 0.15s;
+  }
+  .nav-brand:hover {
+    opacity: 0.85;
   }
 
   .nav-tabs {
@@ -152,15 +194,18 @@ import socials from "../lib/data/socials-data.json";
     font: inherit;
     font-size: 0.71rem;
     color: inherit;
-    opacity: 0.32;
+    text-decoration: none;
+    opacity: 0.5;
     padding: 0.18rem 0.48rem;
     border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
     transition:
       opacity 0.15s,
       background 0.15s;
   }
   .nav-tab:hover {
-    opacity: 0.6;
+    opacity: 0.75;
     background: var(--surface-h);
   }
   .nav-tab.is-active {
@@ -186,14 +231,14 @@ import socials from "../lib/data/socials-data.json";
     border: none;
     cursor: pointer;
     color: inherit;
-    opacity: 0.3;
+    opacity: 0.45;
     padding: 0;
     transition:
       background 0.12s,
       opacity 0.12s;
   }
   .tseg:hover {
-    opacity: 0.7;
+    opacity: 0.8;
     background: var(--surface-h);
   }
   .tseg.ts-active {
@@ -219,14 +264,14 @@ import socials from "../lib/data/socials-data.json";
     font-family: var(--font-mono);
     color: inherit;
     text-decoration: none;
-    opacity: 0.3;
+    opacity: 0.45;
     transition: opacity 0.15s;
   }
   .footer a:hover {
-    opacity: 0.75;
+    opacity: 0.85;
   }
   .footer-time {
-    opacity: 0.2;
+    opacity: 0.32;
   }
 
   .footer-left {
@@ -235,7 +280,7 @@ import socials from "../lib/data/socials-data.json";
     gap: 0.25rem;
     font-size: 0.62rem;
     font-family: var(--font-mono);
-    opacity: 0.3;
+    opacity: 0.45;
     flex-shrink: 0;
   }
   .footer-left a {
@@ -250,6 +295,6 @@ import socials from "../lib/data/socials-data.json";
   }
   .sep {
     font-size: 0.6rem;
-    opacity: 0.15;
+    opacity: 0.2;
   }
 </style>

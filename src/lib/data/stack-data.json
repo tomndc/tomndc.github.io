@@ -35,9 +35,7 @@
       "items": [
         { "name": "Git",         "icon": "git" },
         { "name": "Postman",     "icon": "postman" },
-        { "name": "Photoshop",   "icon": "adobephotoshop" },
-        { "name": "Illustrator", "icon": "adobeillustrator" },
-        { "name": "Premiere",    "icon": "adobepremierepro" }
+        { "name": "Adobe Suite", "icon": "adobe" }
       ]
     }
   ],

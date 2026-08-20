@@ -1,27 +1,37 @@
 ---
-import BioComponent from "../components/BioComponent.astro";
 import SearchBar from "../components/SearchBar.astro";
 import FeaturedRow from "../components/FeaturedRow.astro";
 import ProjectCard from "../components/ProjectCard.astro";
-import aboutData from "../lib/data/about-data.json";
 import searchData from "../lib/data/search-data.json";
 import projects from "../lib/data/projects-data.json";
-import socials from "../lib/data/socials-data.json";
+import stackData from "../lib/data/stack-data.json";
 
-const { name: ownerName, avatar, bio, role, company } = aboutData as any;
-const {
-  searchTitle,
-  searchSubtitle,
-  tagsThreshold,
-  tagsTitle,
-  tagsSubtitle,
-  featuredTitle,
-  featuredSubtitle,
-} = searchData as any;
+const { tagsThreshold } = searchData as any;
 
-const subtitle = company ? `${role} at ${company}` : role;
+const list = projects as any[];
+const featured = list.filter((p: any) => p.featured === true);
 
-const featured = (projects as any[]).filter((p: any) => p.featured === true);
+function techsOf(p: any): string[] {
+  return (Array.isArray(p.technologies) ? p.technologies : p.technologies.split(",").map((t: string) => t.trim()))
+    .map((t: string) => t.toLowerCase());
+}
+
+const featuredTechs = new Set(featured.flatMap(techsOf));
+const featuredTypes = new Set(featured.map((p: any) => (p.type || "").toLowerCase()).filter(Boolean));
+
+const related = list.filter((p: any) => {
+  if (p.featured === true) return false;
+  const shared = techsOf(p).some((t: string) => featuredTechs.has(t));
+  const sameType = featuredTypes.has((p.type || "").toLowerCase());
+  return shared || sameType;
+});
+
+const stackGroups = [
+  ...((stackData as any).stack ?? []),
+  ...((stackData as any).learning?.length
+    ? [{ category: "learning", items: (stackData as any).learning }]
+    : []),
+];
 
 const allTechnologies: string[] = [
   ...new Set(
@@ -39,86 +49,59 @@ const allTypes: string[] = [
 ---
 
 <section class="work-section" id="section-work">
-  <div class="bio-area">
-    <BioComponent
-      name={ownerName ?? "Tomás Manduca"}
-      subtitle={subtitle}
-      avatar={avatar ?? "/avatar.jpg"}
-      searchTitle={searchTitle}
-      searchSubtitle={searchSubtitle}
-      tagsTitle={tagsTitle}
-      tagsSubtitle={tagsSubtitle}
-      featuredTitle={featuredTitle}
-      featuredSubtitle={featuredSubtitle}
-    />
-    <div class="about-collapsible">
-      <div class="inner">
-        <p class="bio-text">{bio}</p>
-        <p class="socials-line">
-          Reach me on
-          <a
-            href={socials.linkedinUrl}
-            target="_blank"
-            rel="noopener noreferrer">LinkedIn</a
-          >
-          {
-            socials.githubUrl && (
-              <>
-                {" "}
-                ·{" "}
-                <a
-                  href={socials.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  GitHub
-                </a>
-              </>
-            )
-          }
-          {
-            socials.behanceUrl && (
-              <>
-                {" "}
-                ·{" "}
-                <a
-                  href={socials.behanceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Behance
-                </a>
-              </>
-            )
-          }.
-        </p>
-      </div>
-    </div>
-  </div>
-
   <div class="ps-area" id="ps-area">
     <SearchBar />
 
     <div class="display-box" id="display-box">
       <div id="panel-featured" class="panel">
-        <div class="panel-label-row">
-          <p class="panel-label">Featured work ({featured.length})</p>
-          <button
-            class="feat-expand-btn"
-            id="feat-expand-btn"
-            aria-label="Expand featured works"
-          >
-            <svg viewBox="0 0 14 14" fill="none" width="11" height="11">
-              <path
-                d="M2 5h10M2 9h10"
-                stroke="currentColor"
-                stroke-width="1.3"
-                stroke-linecap="round"></path>
-            </svg>
-          </button>
-        </div>
+        <p class="panel-label section-label">
+          <svg class="folder-ico" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M1.5 4.2c0-.66.54-1.2 1.2-1.2h3.4l1.3 1.5h6.9c.66 0 1.2.54 1.2 1.2v7.1c0 .66-.54 1.2-1.2 1.2H2.7c-.66 0-1.2-.54-1.2-1.2V4.2Z"
+              stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"
+            ></path>
+          </svg>
+          Selected projects ({featured.length})
+        </p>
         <div class="fi-list">
           {featured.map((p: any) => <FeaturedRow item={p} />)}
+        </div>
+
+        {
+          related.length > 0 && (
+            <div id="related-block" class="related-block" hidden>
+              <p class="panel-label section-label related-label">Related projects ({related.length})</p>
+              <div class="fi-list">
+                {related.map((p: any) => <FeaturedRow item={p} />)}
+              </div>
+            </div>
+          )
+        }
+
+        <div class="stack-block">
+          <p class="panel-label section-label related-label">Stack</p>
+          <div class="stack-groups">
+            {
+              stackGroups.map((group: any) => (
+                <div class="stack-group">
+                  <span class="stack-group-label">{group.category}</span>
+                  <div class="stack-chips">
+                    {group.items.map((item: any) => (
+                      <span class="stack-chip" title={item.name}>
+                        {item.icon && (
+                          <span
+                            class="icon-mask stack-chip-icon"
+                            style={`-webkit-mask-image:url(https://cdn.simpleicons.org/${item.icon});mask-image:url(https://cdn.simpleicons.org/${item.icon});`}
+                          />
+                        )}
+                        <span class="stack-chip-name">{item.name}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
         </div>
       </div>
 
@@ -163,7 +146,24 @@ const allTypes: string[] = [
 >
   window.__PS_DATA__ = { projects, allTechnologies, allTypes, tagsThreshold };
 </script>
-<script is:inline src="/scripts/search.js"></script>
+<script is:inline src="/scripts/search.js" data-astro-rerun></script>
+<script is:inline data-astro-rerun>
+  (function () {
+    function toggleRelated() {
+      var panel = document.getElementById("panel-featured");
+      var related = document.getElementById("related-block");
+      if (!panel || !related) return;
+      var list = panel.querySelector(".fi-list");
+      if (!list) return;
+      var used = list.offsetHeight + 28;
+      var avail = panel.clientHeight;
+      related.hidden = !(avail > 0 && used < avail - 40);
+    }
+    window.__psToggleRelated = toggleRelated;
+    document.addEventListener("layout:resized", toggleRelated);
+    requestAnimationFrame(function () { setTimeout(toggleRelated, 30); });
+  })();
+</script>
 
 <style>
   .work-section {
@@ -173,59 +173,20 @@ const allTypes: string[] = [
     padding-top: 12px;
   }
 
-  .bio-area {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    flex-shrink: 0;
-  }
-  .bio-text {
-    margin: 0;
-    font-size: 0.84rem;
-    line-height: 1.55;
-  }
-  .socials-line {
-    margin: 0;
-    font-size: 0.78rem;
-  }
-  .socials-line a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  .socials-line a:hover {
-    opacity: 0.75;
-  }
-
   .ps-area {
-    display: flex;
-    flex-direction: column;
-    padding-top: 0.85rem;
-  }
-
-  :global(body.feat-expanded) .ps-area {
     flex: 1;
     min-height: 0;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     padding-bottom: 0.55rem;
   }
 
   .display-box {
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    background: var(--surface);
     margin-top: 0.5rem;
     overflow: hidden;
-  }
-
-  :global(body.feat-expanded) .display-box {
     flex: 1;
     min-height: 0;
-  }
-  :global(body.feat-expanded) #panel-featured {
-    flex: 1;
-    min-height: 0;
-    max-height: none;
   }
 
   .panel {
@@ -237,7 +198,7 @@ const allTypes: string[] = [
     box-sizing: border-box;
   }
   .panel::-webkit-scrollbar {
-    width: 3px;
+    width: 2px;
   }
   .panel::-webkit-scrollbar-thumb {
     background: var(--border);
@@ -249,59 +210,80 @@ const allTypes: string[] = [
   }
 
   .panel-label {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
     font-size: 0.65rem;
     font-family: var(--font-mono);
-    opacity: 0.35;
+    opacity: 0.5;
     margin: 0 0 0.5rem;
   }
-  .panel-label-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
+  .section-label {
+    font-size: 0.9rem;
+    opacity: 0.55;
+    font-weight: 500;
   }
-  .panel-label-row .panel-label {
-    margin-bottom: 0;
-  }
-
-  .feat-expand-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 24px;
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    cursor: pointer;
-    color: inherit;
-    opacity: 0.4;
-    padding: 0;
-    transition:
-      opacity 0.15s,
-      background 0.15s,
-      border-color 0.15s;
+  .folder-ico {
+    width: 13px;
+    height: 13px;
     flex-shrink: 0;
   }
-  .feat-expand-btn:hover {
-    opacity: 0.8;
+
+  .related-block {
+    margin-top: 1.1rem;
+    padding-top: 0.9rem;
+    border-top: 1px dashed var(--border);
+  }
+  .related-label {
+    opacity: 0.4;
+  }
+
+  .stack-block {
+    margin-top: 1.1rem;
+    padding-top: 0.9rem;
+    border-top: 1px dashed var(--border);
+  }
+  .stack-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .stack-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .stack-group-label {
+    font-size: 0.6rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.4;
+  }
+  .stack-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+  .stack-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    padding: 0.22rem 0.5rem;
+    border-radius: 3px;
+    border: 1px solid var(--border);
     background: var(--surface-h);
-    border-color: var(--border-h);
   }
-  :global(body.feat-expanded) .feat-expand-btn {
-    opacity: 0.8;
-    background: var(--surface-h);
-    border-color: var(--border-h);
+  .stack-chip-icon {
+    width: 11px;
+    height: 11px;
+    opacity: 0.65;
   }
-  :global(body.feat-expanded) .about-collapsible {
-    grid-template-rows: 0fr;
-    opacity: 0;
-  }
-  :global(body.feat-expanded) .bio-area {
-    gap: 0;
-  }
-  :global(body.feat-expanded) #section-stack {
-    display: none !important;
+  .stack-chip-name {
+    font-size: 0.68rem;
+    opacity: 0.6;
+    white-space: nowrap;
+    line-height: 1;
   }
 
   .fi-list {
@@ -310,14 +292,13 @@ const allTypes: string[] = [
   }
 
   #panel-featured {
-    max-height: calc(3 * 44px + 2rem);
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
   }
   #panel-featured::-webkit-scrollbar {
-    width: 3px;
+    width: 2px;
   }
   #panel-featured::-webkit-scrollbar-thumb {
     background: var(--border);
@@ -397,17 +378,6 @@ const allTypes: string[] = [
     font-size: 0.93rem;
     font-weight: 600;
     letter-spacing: -0.015em;
-  }
-  :global(.detail-type) {
-    font-size: 0.58rem;
-    font-family: var(--font-mono);
-    padding: 0.07rem 0.34rem;
-    border-radius: 2px;
-    background: var(--accent-dim);
-    color: var(--accent);
-    border: 1px solid var(--accent-border);
-    font-weight: 500;
-    text-transform: uppercase;
   }
   :global(.detail-links) {
     display: flex;
@@ -495,17 +465,44 @@ const allTypes: string[] = [
     gap: 0.25rem;
     flex-wrap: wrap;
   }
-  :global(.detail-tags span) {
+  :global(.detail-tags span),
+  :global(.detail-tags .icon-tag) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
     font-size: 0.62rem;
     font-family: var(--font-mono);
-    padding: 0.07rem 0.32rem;
+    padding: 0 0.32rem;
     border-radius: 2px;
     background: var(--surface-h);
-    opacity: 0.75;
-    border: 1px solid var(--border);
+    color: var(--fg);
+    opacity: 0.85;
+    border: 1px solid var(--border-h);
   }
-  :global(.detail-tags span.tool) {
-    opacity: 0.35;
+  :global(.detail-tags .icon-tag) {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+  }
+  :global(.detail-tags .icon-tag .icon-mask) {
+    width: 12px;
+    height: 12px;
+    opacity: 0.9;
+  }
+  :global(.detail-tags span.tool),
+  :global(.detail-tags .icon-tag.tool) {
+    opacity: 0.5;
+  }
+  :global(.detail-tags span.type) {
+    width: auto;
+    padding: 0 0.32rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-color: var(--accent-border);
+    opacity: 1;
   }
 
   .lightbox {

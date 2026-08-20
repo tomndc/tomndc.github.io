@@ -1,13 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 *, *::before, *::after { box-sizing: border-box; }
 
-html { height: 100%; }
+html {
+  height: 100%;
+  font-size: 15px;
+
+  --bg:            #111111;
+  --fg:            #FCFCFC;
+  --border:        rgba(252,252,252,0.1);
+  --border-h:      rgba(252,252,252,0.2);
+  --surface:       rgba(252,252,252,0.03);
+  --surface-h:     rgba(252,252,252,0.06);
+  --modal-bg:      #171717;
+  --icon-bg:       #232323;
+  --icon-more-bg:  #2e2e2e;
+  --icon-border:   #111111;
+  --accent:        #0E63FF;
+  --accent-dim:    rgba(14,99,255,0.1);
+  --accent-border: rgba(14,99,255,0.25);
+  --lime:          #6abf4b;
+  --lime-dim:      rgba(106,191,75,0.12);
+  --lime-border:   rgba(106,191,75,0.28);
+  --font-mono:     "Inter", sans-serif;
+  --main-pad:      0.7rem;
+}
+
+html.light {
+  --bg:            #FCFCFC;
+  --fg:            #111111;
+  --border:        rgba(17,17,17,0.1);
+  --border-h:      rgba(17,17,17,0.2);
+  --surface:       rgba(17,17,17,0.02);
+  --surface-h:     rgba(17,17,17,0.05);
+  --modal-bg:      #f5f5f5;
+  --icon-bg:       #e6e6e6;
+  --icon-more-bg:  #d4d4d4;
+  --icon-border:   #FCFCFC;
+  --accent:        #0050D8;
+  --accent-dim:    rgba(0,80,216,0.08);
+  --accent-border: rgba(0,80,216,0.22);
+}
 
 body {
   font-family: "Inter", sans-serif;
   font-weight: 300;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.3;
   margin: 0 auto;
   padding: 0;
@@ -16,45 +53,9 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-color: #0C0A09;
-  color: #FAFAFA;
+  background-color: var(--bg);
+  color: var(--fg);
   transition: background-color 0.2s, color 0.2s;
-
-  --bg:            #0C0A09;
-  --fg:            #FAFAFA;
-  --border:        rgba(255,255,255,0.1);
-  --border-h:      rgba(255,255,255,0.2);
-  --surface:       rgba(255,255,255,0.03);
-  --surface-h:     rgba(255,255,255,0.06);
-  --modal-bg:      #111114;
-  --icon-bg:       #1c1c1f;
-  --icon-more-bg:  #2a2a2f;
-  --icon-border:   #0C0A09;
-  --accent:        #0E63FF;
-  --accent-dim:    rgba(14,99,255,0.1);
-  --accent-border: rgba(14,99,255,0.25);
-  --lime:          #6abf4b;
-  --lime-dim:      rgba(106,191,75,0.12);
-  --lime-border:   rgba(106,191,75,0.28);
-  --font-mono:     "IBM Plex Mono", "Fira Mono", monospace;
-}
-
-body.light {
-  background-color: #FAFAFA;
-  color: #0C0A09;
-  --bg:            #FAFAFA;
-  --fg:            #0C0A09;
-  --border:        rgba(0,0,0,0.1);
-  --border-h:      rgba(0,0,0,0.2);
-  --surface:       rgba(0,0,0,0.02);
-  --surface-h:     rgba(0,0,0,0.05);
-  --modal-bg:      #f9f9f9;
-  --icon-bg:       #e2e2e2;
-  --icon-more-bg:  #d0d0d0;
-  --icon-border:   #FAFAFA;
-  --accent:        #0050D8;
-  --accent-dim:    rgba(0,80,216,0.08);
-  --accent-border: rgba(0,80,216,0.22);
 }
 
 [hidden] { display: none !important; }
@@ -64,30 +65,14 @@ main {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: 0 0.75rem;
-  overflow: hidden;
+  padding: 0 var(--main-pad);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-h) transparent;
 }
-
-.about-collapsible {
-  display: grid;
-  grid-template-rows: 1fr;
-  opacity: 1;
-  transition: grid-template-rows 0.28s ease, opacity 0.22s ease;
-}
-.about-collapsible > .inner {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-body.searching .about-collapsible,
-body[data-bio-state="searching"] .about-collapsible,
-body[data-bio-state="many-tags"] .about-collapsible,
-body[data-bio-state="featured"] .about-collapsible,
-body[data-bio-state="work-only"] .about-collapsible {
-  grid-template-rows: 0fr;
-  opacity: 0;
-}
+main::-webkit-scrollbar       { width: 2px; }
+main::-webkit-scrollbar-thumb { background: var(--border-h); border-radius: 4px; }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px;
@@ -96,8 +81,7 @@ body[data-bio-state="work-only"] .about-collapsible {
 }
 
 @media (max-width: 480px) {
-  body { font-size: 12px; }
-  main { padding: 0 0.5rem; }
+  body { font-size: 11px; --main-pad: 0.5rem; }
 }
 
 #display-box {
@@ -107,3 +91,26 @@ body[data-bio-state="work-only"] .about-collapsible {
 }
 #display-box::-webkit-scrollbar       { width: 3px; }
 #display-box::-webkit-scrollbar-thumb { background: var(--border-h); border-radius: 4px; }
+
+/* Flat, theme-colored icon utility (used for tech/tool icons everywhere) */
+.icon-mask {
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  flex-shrink: 0;
+}
+
+/* Faster, subtle page transitions */
+::view-transition-group(*) {
+  animation-duration: 0.1s;
+}
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0.1s;
+  animation-timing-function: ease-out;
+}

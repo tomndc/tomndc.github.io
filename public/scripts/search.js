@@ -21,7 +21,6 @@
   const $shell   = document.getElementById("input-shell");
   const $sugs    = document.getElementById("ps-sugs");
   const $chips   = document.getElementById("chips-row");
-  const $workChip = document.getElementById("work-chip");
   const $meta    = document.getElementById("ps-meta");
   const $grid    = document.getElementById("ps-grid");
   const $pFeat   = document.getElementById("panel-featured");
@@ -41,7 +40,6 @@
   let activePanel = "featured";
   let prevPanel   = "featured";
   let fromFeaturedMode = false;
-  let workChipActive = false;
 
   function setBioState(state) {
     document.body.dataset.bioState = state;
@@ -52,7 +50,6 @@
     if (fromFeaturedMode)             return "featured";
     if (filters.length >= TAGS_LIMIT) return "many-tags";
     if (filters.length > 0 || query.length > 0) return "searching";
-    if (workChipActive)               return "work-only";
     return "default";
   }
 
@@ -60,16 +57,6 @@
     const state = computeBioState();
     setBioState(state);
     document.body.classList.toggle("detail", activePanel === "detail");
-    if (activePanel !== "featured" || filters.length || query) {
-      document.body.classList.remove("feat-expanded");
-    }
-
-  }
-
-  function renderWorkChip(visible) {
-    if (!$workChip) return;
-    $workChip.hidden = !visible;
-    $shell.classList.toggle("has-work", visible);
   }
 
   function showPanel(which) {
@@ -81,6 +68,13 @@
     requestAnimationFrame(() => map[which].classList.remove("panel-off"));
   }
 
+  function detailTag(label, isTool) {
+    const slug = iconSlug[label.toLowerCase()];
+    if (!slug) return `<span class="${isTool ? "tool" : ""}">${label}</span>`;
+    const url = `https://cdn.simpleicons.org/${slug}`;
+    return `<span class="icon-tag ${isTool ? "tool" : ""}" title="${label}"><span class="icon-mask" style="-webkit-mask-image:url(${url});mask-image:url(${url});"></span></span>`;
+  }
+
   function openDetail(projectName, fromFeatured) {
     const p = projects.find(x => x.name === projectName);
     if (!p) return;
@@ -88,7 +82,6 @@
 
     if (fromFeatured) {
       fromFeaturedMode = true;
-      if (!workChipActive) { workChipActive = true; renderWorkChip(true); }
     }
 
     const techs = Array.isArray(p.technologies) ? p.technologies : p.technologies.split(",").map(t => t.trim());
@@ -118,7 +111,6 @@
           <div class="detail-thumb">${thumbHtml}</div>
           <div>
             <h2 class="detail-heading">${p.name}</h2>
-            ${p.type ? `<span class="detail-type">${p.type}</span>` : ""}
           </div>
         </div>
         <button class="detail-back-btn" id="detail-back" aria-label="Back">
@@ -132,8 +124,9 @@
       <p class="detail-desc">${p.description}</p>
       ${imgsHtml}
       <div class="detail-tags">
-        ${techs.map(t => `<span>${t}</span>`).join("")}
-        ${tools.map(t => `<span class="tool">${t}</span>`).join("")}
+        ${p.type ? `<span class="type">${p.type}</span>` : ""}
+        ${techs.map(t => detailTag(t)).join("")}
+        ${tools.map(t => detailTag(t, true)).join("")}
       </div>`;
 
     $pDet.scrollTop = 0;
@@ -145,14 +138,10 @@
     $back = document.getElementById("detail-back");
     fromFeaturedMode = false;
 
-    if (prevPanel === "featured") {
-      if (filters.length > 0) {
-        showPanel("results");
-      } else {
-        resetToFeatured();
-      }
-    } else {
+    if (filters.length > 0 || query.length > 0) {
       showPanel("results");
+    } else {
+      resetToFeatured();
     }
     syncState();
   });
@@ -194,7 +183,8 @@
   function techIcon(label) {
     const slug = iconSlug[label.toLowerCase()];
     if (!slug) return "";
-    return `<img src="https://cdn.simpleicons.org/${slug}" width="13" height="13" alt="" onerror="this.style.display='none'">`;
+    const url = `https://cdn.simpleicons.org/${slug}`;
+    return `<span class="sug-icon" style="-webkit-mask-image:url(${url});mask-image:url(${url});" aria-hidden="true"></span>`;
   }
 
   function swMatch(value, q) {
@@ -211,7 +201,7 @@
       if (seen.has(k) || active.has(k)) return;
       seen.add(k); out.push({ label, kind });
     };
-    if (!workChipActive && swMatch("/work", q)) out.push({ label: "/work", kind: "section" });
+    if (swMatch("/about", q)) out.push({ label: "/about", kind: "section" });
     allTechnologies.forEach(t => { if (swMatch(t, q)) push(t, "tech"); });
     allTypes.forEach(t => { if (t && swMatch(t, q)) push(t, "type"); });
     return out.slice(0, 9);
@@ -225,7 +215,7 @@
            aria-selected="false" data-label="${s.label}" data-kind="${s.kind}" tabindex="0">
         ${s.kind === "tech" ? techIcon(s.label) : ""}
         <span class="sug-main">${s.label}</span>
-        ${s.kind === "section" ? `<span style="font-size:0.6rem;font-family:'IBM Plex Mono',monospace;font-style:italic;color:#6abf4b;opacity:0.75;margin-left:auto;white-space:nowrap;">// section tag</span>` : ""}
+        ${s.kind === "section" ? `<span style="font-size:0.6rem;font-style:italic;color:#6abf4b;opacity:0.75;margin-left:auto;white-space:nowrap;">// section tag</span>` : ""}
       </li>`
     ).join("");
     $sugs.hidden = false;
@@ -261,13 +251,17 @@
     setActive(focusIdx);
   }
 
+  function goAbout() {
+    import("astro:transitions/client")
+      .then(m => m.navigate("/"))
+      .catch(() => { window.location.href = "/"; });
+  }
+
   function pickLi(li) {
     $input.value = ""; query = "";
-    if (li.dataset.kind === "section" && li.dataset.label === "/work") {
+    if (li.dataset.kind === "section" && li.dataset.label === "/about") {
       closeSugs();
-      if (!workChipActive) { workChipActive = true; renderWorkChip(true); }
-      syncState();
-      $input.focus();
+      goAbout();
       return;
     }
     addFilter(li.dataset.label, li.dataset.kind);
@@ -289,7 +283,6 @@
   function addFilter(label, kind) {
     if (filters.some(f => f.label.toLowerCase() === label.toLowerCase())) return;
     fromFeaturedMode = false;
-    if (!workChipActive) { workChipActive = true; renderWorkChip(true); }
     filters.push({ label, kind });
     syncClear(); renderChips(); applyFilters(); updateShellClasses(); syncState();
   }
@@ -301,7 +294,7 @@
   }
 
   function syncClear() {
-    $clear.hidden = !query && !filters.length;
+    if ($clear) $clear.hidden = !query && !filters.length;
   }
 
   function renderChips() {
@@ -322,7 +315,11 @@
   }
 
   function applyFilters() {
-    if (!filters.length) {
+    const hasFilters = filters.length > 0;
+    const q = query.trim().toLowerCase();
+    const hasQuery = q.length > 0;
+
+    if (!hasFilters && !hasQuery) {
       allCards.forEach(c => { c.hidden = true; });
       if (activePanel === "results") showPanel("featured");
       if ($meta) $meta.textContent = "";
@@ -334,13 +331,19 @@
     let visible = 0;
     allCards.forEach((card, i) => {
       const p = idx[i];
-      const show = filters.some(f => {
+      const matchesFilters = !hasFilters || filters.some(f => {
         const fl = f.label.toLowerCase();
         if (fl === "featured") return p.featured === true;
         if (f.kind === "tech") return p.techs.some(t => t === fl);
         if (f.kind === "type") return p.typeLow === fl;
         return false;
       });
+      const matchesQuery = !hasQuery ||
+        p.name.toLowerCase().includes(q) ||
+        (p.description || "").toLowerCase().includes(q) ||
+        p.typeLow.includes(q) ||
+        p.techs.some(t => t.includes(q));
+      const show = matchesFilters && matchesQuery;
       card.hidden = !show;
       if (show) visible++;
     });
@@ -352,8 +355,6 @@
 
   function clearAll() {
     fromFeaturedMode = false;
-    workChipActive = false;
-    renderWorkChip(false);
     filters = []; query = ""; $input.value = "";
     prevPanel = "featured";
     syncClear(); renderChips(); closeSugs(); updateShellClasses();
@@ -368,6 +369,7 @@
     query = $input.value;
     if (query.length > 0) fromFeaturedMode = false;
     syncClear(); updateShellClasses(); syncState();
+    applyFilters();
     renderSugs(buildSugs(query));
   });
 
@@ -388,30 +390,34 @@
       else clearAll();
     } else if (e.key === "Backspace" && !$input.value && filters.length) {
       removeFilter(filters[filters.length - 1].label);
-    } else if (e.key === "Backspace" && !$input.value && !filters.length && workChipActive) {
-      clearAll();
     }
   });
 
-  const $workChipX = document.getElementById("work-chip-x");
-  if ($workChipX) {
-    $workChipX.addEventListener("click", () => clearAll());
-  }
-
-  const $featBtn = document.getElementById("feat-expand-btn");
-  if ($featBtn) {
-    $featBtn.addEventListener("click", () => {
-      document.body.classList.toggle("feat-expanded");
-    });
-  }
-
   $input.addEventListener("focus", () => { if (query) renderSugs(buildSugs(query)); });
-  $clear.addEventListener("click", clearAll);
+  if ($clear) $clear.addEventListener("click", clearAll);
   document.addEventListener("mousedown", e => {
     if (!document.getElementById("search-bar").contains(e.target)) closeSugs();
   });
   $shell.addEventListener("click", () => $input.focus());
 
+  const $submitBtn = document.querySelector("#search-bar .submit-btn");
+  if ($submitBtn) {
+    $submitBtn.addEventListener("click", () => {
+      if (filters.length > 0) clearAll();
+      else $input.focus();
+    });
+  }
+
   syncState();
   applyFilters();
+
+  // Deep-link support: /work/?open=<project name>
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const openParam = params.get("open");
+    if (openParam) {
+      const match = projects.find(p => p.name.toLowerCase() === openParam.toLowerCase());
+      if (match) openDetail(match.name, true);
+    }
+  } catch (e) {}
 })();

@@ -10,17 +10,27 @@
 
     var results = document.getElementById("panel-results");
     var detail  = document.getElementById("panel-detail");
+    var featured = document.getElementById("panel-featured");
 
-    if (results) results.style.height = available + "px";
-    if (detail)  detail.style.height  = available + "px";
+    if (results)  results.style.height  = available + "px";
+    if (detail)   detail.style.height   = available + "px";
+    if (featured) featured.style.height = available + "px";
+
+    document.dispatchEvent(new CustomEvent("layout:resized"));
   }
 
+  window.__psResize = resize;
+
+  requestAnimationFrame(resize);
   window.addEventListener("load", resize);
   window.addEventListener("resize", resize);
 
-  var observer = new MutationObserver(function() { setTimeout(resize, 10); });
-  observer.observe(document.body, {
-    attributes: true,
-    attributeFilter: ["class", "data-bio-state"]
-  });
+  if (!window.__psLayoutObserver) {
+    window.__psLayoutObserver = new MutationObserver(function () { setTimeout(resize, 10); });
+    window.__psLayoutObserver.observe(document.documentElement, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ["class", "data-bio-state", "hidden"]
+    });
+  }
 })();
