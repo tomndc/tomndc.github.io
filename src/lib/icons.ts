@@ -9,6 +9,7 @@ export const ICON_SLUGS: Record<string, string> = {
   wordpress: "wordpress",
   postgresql: "postgresql",
   prisma: "prisma",
+  mariadb:"mariadb",
   mongoose: "mongoose",
   vite: "vite",
   websockets: "socketdotio",

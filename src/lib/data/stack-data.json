@@ -20,7 +20,8 @@
       "items": [
         { "name": "PostgreSQL", "icon": "postgresql" },
         { "name": "MongoDB",    "icon": "mongodb" },
-        { "name": "MySQL",      "icon": "mysql" }
+        { "name": "MySQL",      "icon": "mysql" },
+        { "name": "MariaDB",    "icon": "mariadb" }
       ]
     },
     {
